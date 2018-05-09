@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="北冥冰皇">
 <meta property="og:description" content="多PC同步 master分支  修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master  hexo分支简单的说就是把Hexo环境push到hexo分支 流程：   创建仓库，http://CrazyMilk.github.io 创建两个分支：master 与 he">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-09T06:37:38.531Z">
+<meta property="og:updated_time" content="2018-05-09T08:17:29.086Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识Hexo">
 <meta name="twitter:description" content="多PC同步 master分支  修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master  hexo分支简单的说就是把Hexo环境push到hexo分支 流程：   创建仓库，http://CrazyMilk.github.io 创建两个分支：master 与 he">
@@ -98,7 +98,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -258,7 +258,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="北冥冰皇">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/ico.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -344,8 +344,11 @@
 <h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><ul>
 <li>_config.yml 修改 theme: next</li>
 <li>主题目录下找到_config.yml也可以进行修改</li>
-<li>新生成page<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags 生成标签页 路径</span><br><span class="line">hexo new page categories  生成分类页面</span><br></pre></td></tr></table></figure></li>
+<li>新生成page<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags 生成标签页 路径</span><br><span class="line">hexo new page categories  生成分类页面</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+<p>参考：<a href="https://www.cnblogs.com/fengxiongZz/p/7707219.html" target="_blank" rel="noopener">使用Hexo+Github一步步搭建属于自己的博客（基础）</a></p>
+<p>参考：<a href="https://blog.csdn.net/zhy421202048/article/details/77877580" target="_blank" rel="noopener">hexo 修改主题</a></p>
 
       
     </div>
@@ -355,6 +358,35 @@
 
     
 
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>喜欢请多支持！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/zhifubao.bmp" alt="北冥冰皇 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/weixin.bmp" alt="北冥冰皇 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
     
 
     
@@ -434,6 +466,10 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/ico.jpg"
+                alt="北冥冰皇" />
+            
               <p class="site-author-name" itemprop="name">北冥冰皇</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
@@ -468,6 +504,22 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BMBH" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="670633706@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -529,7 +581,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -628,13 +680,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
