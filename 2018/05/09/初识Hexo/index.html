@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="多PC同步  master分支    修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master   hexo分支简单的说就是把Hexo环境push到hexo分支 流程：    创建仓库，http://CrazyMilk.github.io    创建两个分支：mas">
+<meta name="description" content="多PC同步 master分支  修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master  hexo分支简单的说就是把Hexo环境push到hexo分支 流程：   创建仓库，http://CrazyMilk.github.io 创建两个分支：master 与 he">
 <meta name="keywords" content="GitHub">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初识Hexo">
 <meta property="og:url" content="http://yoursite.com/2018/05/09/初识Hexo/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="多PC同步  master分支    修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master   hexo分支简单的说就是把Hexo环境push到hexo分支 流程：    创建仓库，http://CrazyMilk.github.io    创建两个分支：mas">
+<meta property="og:description" content="多PC同步 master分支  修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master  hexo分支简单的说就是把Hexo环境push到hexo分支 流程：   创建仓库，http://CrazyMilk.github.io 创建两个分支：master 与 he">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-09T06:31:07.191Z">
+<meta property="og:updated_time" content="2018-05-09T06:37:38.531Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识Hexo">
-<meta name="twitter:description" content="多PC同步  master分支    修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master   hexo分支简单的说就是把Hexo环境push到hexo分支 流程：    创建仓库，http://CrazyMilk.github.io    创建两个分支：mas">
+<meta name="twitter:description" content="多PC同步 master分支  修改_config.yml123type: gitrepo: https://github.com/username/username.github.io.gitbranch: master  hexo分支简单的说就是把Hexo环境push到hexo分支 流程：   创建仓库，http://CrazyMilk.github.io 创建两个分支：master 与 he">
 
 
 
@@ -320,57 +320,27 @@
       
 
       
-        <h3 id="多PC同步"><a href="#多PC同步" class="headerlink" title="多PC同步"></a>多PC同步</h3><ul>
-<li><ol>
+        <h3 id="多PC同步"><a href="#多PC同步" class="headerlink" title="多PC同步"></a>多PC同步</h3><ol>
 <li>master分支</li>
 </ol>
-</li>
-</ul>
 <p>修改_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type: git</span><br><span class="line">repo: https://github.com/username/username.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><ol start="2">
+<ol start="2">
 <li><p>hexo分支简单的说就是把Hexo环境push到hexo分支</p>
 <p>流程：</p>
 <blockquote>
-<ul>
-<li><ol>
+<ol>
 <li>创建仓库，<a href="http://CrazyMilk.github.io" target="_blank" rel="noopener">http://CrazyMilk.github.io</a></li>
-</ol>
-</li>
-<li><ol start="2">
 <li>创建两个分支：master 与 hexo</li>
-</ol>
-</li>
-<li><ol start="3">
 <li>设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）</li>
-</ol>
-</li>
-<li><ol start="4">
 <li>使用git <a href="mailto:clonegit@github.com" target="_blank" rel="noopener">clonegit@github.com</a>:CrazyMilk/CrazyMilk.github.io.git拷贝仓库</li>
-</ol>
-</li>
-<li><ol start="5">
 <li>在本地<a href="http://CrazyMilk.github.io文件夹下通过Git" target="_blank" rel="noopener">http://CrazyMilk.github.io文件夹下通过Git</a> bash依次执行npm install hexo、hexo init、npm install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）</li>
-</ol>
-</li>
-<li><ol start="6">
 <li>修改_config.yml中的deploy参数，分支应为maste</li>
-</ol>
-</li>
-<li><ol start="7">
 <li>依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件</li>
-</ol>
-</li>
-<li><ol start="8">
 <li>执行hexo g -d生成网站并部署到GitHub上。</li>
 </ol>
-</li>
-</ul>
 </blockquote>
 </li>
 </ol>
-</li>
-</ul>
 <h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><ul>
 <li>_config.yml 修改 theme: next</li>
 <li>主题目录下找到_config.yml也可以进行修改</li>
