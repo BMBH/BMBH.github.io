@@ -1,6 +1,6 @@
 ---
-title: 初识Hexo
-date: 2018-05-09 14:30:46
+title: Hexo初体验
+date: 2018-05-10
 tags: Hexo
 categories: Hexo
 ---
