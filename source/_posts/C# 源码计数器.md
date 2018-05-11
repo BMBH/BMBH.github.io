@@ -1,20 +1,19 @@
 ---
-title: 源码计数器
+title: C# 源码计数器
 date: 2018-05-11 08:47:38
 tags: C# 
 categories: .NET
 ---
 
-### .NET小程序--源码计数器
+### C# 源码计数器
 
 - 应用场景
 
-编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。
+	编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。
 
 - 编程思路
 
-主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件
-进行分析
+	主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析
 
 - 相关技术
 	- 抽象类
@@ -52,4 +51,4 @@ categories: .NET
 
 - GitHub地址
 
-[BMBH/.NET-App](https://github.com/BMBH/.NET-App) CodeCalc文件夹
+	[BMBH/.NET-App](https://github.com/BMBH/.NET-App/tree/master/CodeCalc)
