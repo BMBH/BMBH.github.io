@@ -249,6 +249,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/源码计数器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="北冥冰皇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ico.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥冰皇">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/11/源码计数器/" itemprop="url">源码计数器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T08:47:38+08:00">
+                2018-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NET/" itemprop="url" rel="index">
+                    <span itemprop="name">.NET</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="NET小程序–源码计数器"><a href="#NET小程序–源码计数器" class="headerlink" title=".NET小程序–源码计数器"></a>.NET小程序–源码计数器</h3><ul>
+<li>应用场景</li>
+</ul>
+<p>编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。</p>
+<ul>
+<li>编程思路</li>
+</ul>
+<p>主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件<br>进行分析</p>
+<ul>
+<li><p>相关技术</p>
+<ul>
+<li>抽象类</li>
+<li>文件操作</li>
+<li>字符串解析</li>
+</ul>
+</li>
+<li><p>项目结构</p>
+<ul>
+<li>抽象类<ul>
+<li>FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法</li>
+<li>ProjectDocument 项目工程类，负责定义项目文件属性及方法</li>
+</ul>
+</li>
+<li>实体类<ul>
+<li>FileEntity 文件实体类，负责存储代码文件信息</li>
+<li>ProjectFileEntity 项目工程实体类，负责存储项目文件信息</li>
+<li>LineEntity 代码行实体类，负责存储代码行信息</li>
+</ul>
+</li>
+<li>集合类<ul>
+<li>FileCollection 文件实体集合，负责文件集合统计数据</li>
+</ul>
+</li>
+<li>功能类<ul>
+<li>CSProjectDocument C#项目工程类，继承ProjectDocument类，负责分析C#项目工程文件</li>
+<li>CSFileAnalyser cs文件分析类，继承FileAnalyser，负责分析cs文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码示例</p>
+<p>  调用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectDocument mDocument = ProjectDocument.Create(this.txtFileName.Text);</span><br><span class="line">if (mDocument == null)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;Analyse for &quot; + this.txtFileName.Text + &quot; error !&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line">mDocument.ClearResults();</span><br><span class="line">mDocument.AnalyseAllFile();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>GitHub地址</p>
+</li>
+</ul>
+<p><a href="https://github.com/BMBH/.NET-App" target="_blank" rel="noopener">BMBH/.NET-App</a> CodeCalc文件夹</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/Hexo初体验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -496,7 +685,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -507,7 +696,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -518,7 +707,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
