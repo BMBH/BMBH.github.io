@@ -1,12 +1,11 @@
 ---
 title: 'C# QR二维码DEMO'
 date: 2018-05-11 12:01:32
-tags: QR
+tags: C#
 categories: .NET
 ---
 
-C# QR二维码DEMO
----
+### C# QR二维码DEMO
 
 - QR二维码
 

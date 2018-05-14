@@ -1,15 +1,17 @@
 ---
 title: 'C# 抽签小程序'
 date: 2018-05-14 09:56:54
-tags: 抽签
+tags: C#
 categories: .NET
 ---
 
+### C# 抽签小程序
+
 - 应用场景
 
-	设置名单，进行抽签
+	设置一个Excel名单表，对名单进行随机抽取。
 
-- 编程思路
+- 设计思路
 
 	使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果
 
@@ -23,7 +25,7 @@ categories: .NET
 
 	- C1.C1Excel Excel操作相关
 
-- DEMO 功能
+- 功能
 
 	- 读取Excel名单
 	- 名单随机抽签
@@ -32,4 +34,4 @@ categories: .NET
 
 - GitHub
 
-	[.NET-Demo/Draw/](https://github.com/BMBH/.NET-Demo/tree/master/Draw)
+	[.NET-App/Draw/](https://github.com/BMBH/.NET-App/tree/master/Draw)

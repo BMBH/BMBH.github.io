@@ -1,19 +1,19 @@
 ---
 title: 'C# 键盘记录器'
 date: 2018-05-14 11:31:21
-tags: Win API
+tags: C#
 categories: .NET
 ---
 
-C# 键盘记录器
+### C# 键盘记录器
 
 ---
 
-- 简介
+- 应用场景
 
 	Win系统带有API可以获取键入值，本小程序主要应用了一个网上广为流传的类，可以说一个测试DEMO。有俗称为键盘钩子
 
-- 编程思路
+- 设计思路
 
 	使用Win API获取建入值
 
@@ -27,4 +27,4 @@ C# 键盘记录器
 
 - GitHub
 
-	[.NET-Demo/KeyboardRecord/](https://github.com/BMBH/.NET-Demo/tree/master/KeyboardRecord)
+	[.NET-App/KeyboardRecord/](https://github.com/BMBH/.NET-App/tree/master/KeyboardRecord)
