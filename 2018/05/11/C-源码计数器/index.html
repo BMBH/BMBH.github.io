@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="抽签," />
+  <meta name="keywords" content="C#," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="应用场景   设置名单，进行抽签  编程思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   DEMO 功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   GitHub   .NET-Demo/Draw/">
-<meta name="keywords" content="抽签">
+<meta name="description" content="C# 源码计数器 应用场景   编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。  编程思路   主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析  相关技术  抽象类 文件操作 字符串解析   项目结构  抽象类 FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法 ProjectDocument 项目工程类">
+<meta name="keywords" content="C#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 抽签小程序">
-<meta property="og:url" content="http://yoursite.com/2018/05/14/C# 抽签小程序/index.html">
+<meta property="og:title" content="C# 源码计数器">
+<meta property="og:url" content="http://yoursite.com/2018/05/11/C-源码计数器/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="应用场景   设置名单，进行抽签  编程思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   DEMO 功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   GitHub   .NET-Demo/Draw/">
+<meta property="og:description" content="C# 源码计数器 应用场景   编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。  编程思路   主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析  相关技术  抽象类 文件操作 字符串解析   项目结构  抽象类 FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法 ProjectDocument 项目工程类">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-14T03:18:06.211Z">
+<meta property="og:updated_time" content="2018-05-11T02:48:54.284Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C# 抽签小程序">
-<meta name="twitter:description" content="应用场景   设置名单，进行抽签  编程思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   DEMO 功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   GitHub   .NET-Demo/Draw/">
+<meta name="twitter:title" content="C# 源码计数器">
+<meta name="twitter:description" content="C# 源码计数器 应用场景   编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。  编程思路   主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析  相关技术  抽象类 文件操作 字符串解析   项目结构  抽象类 FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法 ProjectDocument 项目工程类">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/14/C# 抽签小程序/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/11/C-源码计数器/"/>
 
 
 
 
 
-  <title>C# 抽签小程序 | 北冥冰皇</title>
+  <title>C# 源码计数器 | 北冥冰皇</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/C# 抽签小程序/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/C-源码计数器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="北冥冰皇">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C# 抽签小程序</h1>
+          <h1 class="post-title" itemprop="name headline">C# 源码计数器</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T09:56:54+08:00">
-                2018-05-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T08:47:38+08:00">
+                2018-05-11
               </time>
             
 
@@ -342,35 +342,50 @@
       
 
       
-        <ul>
+        <h3 id="C-源码计数器"><a href="#C-源码计数器" class="headerlink" title="C# 源码计数器"></a>C# 源码计数器</h3><ul>
 <li><p>应用场景</p>
-<p>  设置名单，进行抽签</p>
+<p>  编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。</p>
 </li>
 <li><p>编程思路</p>
-<p>  使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果</p>
+<p>  主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析</p>
 </li>
 <li><p>相关技术</p>
 <ul>
-<li>随机数</li>
-<li>Excel读取/导出</li>
-<li>XML文档读写</li>
+<li>抽象类</li>
+<li>文件操作</li>
+<li>字符串解析</li>
 </ul>
 </li>
-<li><p>相关类库</p>
+<li><p>项目结构</p>
 <ul>
-<li>C1.C1Excel Excel操作相关</li>
+<li>抽象类<ul>
+<li>FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法</li>
+<li>ProjectDocument 项目工程类，负责定义项目文件属性及方法</li>
 </ul>
 </li>
-<li><p>DEMO 功能</p>
-<ul>
-<li>读取Excel名单</li>
-<li>名单随机抽签</li>
-<li>评分功能</li>
-<li>Excel导出功能</li>
+<li>实体类<ul>
+<li>FileEntity 文件实体类，负责存储代码文件信息</li>
+<li>ProjectFileEntity 项目工程实体类，负责存储项目文件信息</li>
+<li>LineEntity 代码行实体类，负责存储代码行信息</li>
 </ul>
 </li>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-Demo/tree/master/Draw" target="_blank" rel="noopener">.NET-Demo/Draw/</a></p>
+<li>集合类<ul>
+<li>FileCollection 文件实体集合，负责文件集合统计数据</li>
+</ul>
+</li>
+<li>功能类<ul>
+<li>CSProjectDocument C#项目工程类，继承ProjectDocument类，负责分析C#项目工程文件</li>
+<li>CSFileAnalyser cs文件分析类，继承FileAnalyser，负责分析cs文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码示例</p>
+<p>  调用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectDocument mDocument = ProjectDocument.Create(this.txtFileName.Text);</span><br><span class="line">if (mDocument == null)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;Analyse for &quot; + this.txtFileName.Text + &quot; error !&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line">mDocument.ClearResults();</span><br><span class="line">mDocument.AnalyseAllFile();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>GitHub地址</p>
+<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/CodeCalc" target="_blank" rel="noopener">BMBH/.NET-App</a></p>
 </li>
 </ul>
 
@@ -419,7 +434,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/抽签/" rel="tag"># 抽签</a>
+            <a href="/tags/C/" rel="tag"># C#</a>
           
         </div>
       
@@ -432,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/11/C# QR二维码DEMO/" rel="next" title="C# QR二维码DEMO">
-                <i class="fa fa-chevron-left"></i> C# QR二维码DEMO
+              <a href="/2018/05/10/Hexo初体验/" rel="next" title="Hexo初体验">
+                <i class="fa fa-chevron-left"></i> Hexo初体验
               </a>
             
           </div>
@@ -442,8 +457,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/14/C# 键盘记录器/" rel="prev" title="C# 键盘记录器">
-                C# 键盘记录器 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/11/C-Socket模拟发送接收/" rel="prev" title="C# Socket模拟发送接收">
+                C# Socket模拟发送接收 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -496,8 +511,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -577,6 +601,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-源码计数器"><span class="nav-number">1.</span> <span class="nav-text">C# 源码计数器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
