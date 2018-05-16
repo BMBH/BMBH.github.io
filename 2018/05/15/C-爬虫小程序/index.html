@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="C# 房贷计算器 应用场景   百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。  设计思路   根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]  相关技术  WinForm 键入事件 字符串与浮点型数据转换   功能   键入相关数据， 进行计算即可  代码示">
+<meta name="description" content="C# 爬虫小程序 设计思路   主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。  相关技术  抽象类 多线程  队列 Http Get请求 字符串解析   项目结构  AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等 AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程 UrlQueue URL队列对">
 <meta name="keywords" content="C#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 房贷计算器">
-<meta property="og:url" content="http://yoursite.com/2018/05/14/C-房贷计算器/index.html">
+<meta property="og:title" content="C# 爬虫小程序">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/C-爬虫小程序/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="C# 房贷计算器 应用场景   百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。  设计思路   根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]  相关技术  WinForm 键入事件 字符串与浮点型数据转换   功能   键入相关数据， 进行计算即可  代码示">
+<meta property="og:description" content="C# 爬虫小程序 设计思路   主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。  相关技术  抽象类 多线程  队列 Http Get请求 字符串解析   项目结构  AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等 AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程 UrlQueue URL队列对">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-15T13:52:49.605Z">
+<meta property="og:updated_time" content="2018-05-15T12:55:24.581Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C# 房贷计算器">
-<meta name="twitter:description" content="C# 房贷计算器 应用场景   百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。  设计思路   根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]  相关技术  WinForm 键入事件 字符串与浮点型数据转换   功能   键入相关数据， 进行计算即可  代码示">
+<meta name="twitter:title" content="C# 爬虫小程序">
+<meta name="twitter:description" content="C# 爬虫小程序 设计思路   主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。  相关技术  抽象类 多线程  队列 Http Get请求 字符串解析   项目结构  AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等 AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程 UrlQueue URL队列对">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/14/C-房贷计算器/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/C-爬虫小程序/"/>
 
 
 
 
 
-  <title>C# 房贷计算器 | 北冥冰皇</title>
+  <title>C# 爬虫小程序 | 北冥冰皇</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/C-房贷计算器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/C-爬虫小程序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="北冥冰皇">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C# 房贷计算器</h1>
+          <h1 class="post-title" itemprop="name headline">C# 爬虫小程序</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T12:21:36+08:00">
-                2018-05-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T16:21:51+08:00">
+                2018-05-15
               </time>
             
 
@@ -342,29 +342,49 @@
       
 
       
-        <h3 id="C-房贷计算器"><a href="#C-房贷计算器" class="headerlink" title="C# 房贷计算器"></a>C# 房贷计算器</h3><ul>
-<li><p>应用场景</p>
-<p>  百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。</p>
-</li>
+        <h3 id="C-爬虫小程序"><a href="#C-爬虫小程序" class="headerlink" title="C# 爬虫小程序"></a>C# 爬虫小程序</h3><ul>
 <li><p>设计思路</p>
-<p>  根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]</p>
+<p>  主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。</p>
 </li>
 <li><p>相关技术</p>
 <ul>
-<li>WinForm 键入事件</li>
-<li>字符串与浮点型数据转换</li>
+<li>抽象类</li>
+<li>多线程 </li>
+<li>队列</li>
+<li>Http Get请求</li>
+<li>字符串解析</li>
 </ul>
 </li>
-<li><p>功能</p>
-<p>  键入相关数据， 进行计算即可</p>
+<li><p>项目结构</p>
+<ul>
+<li>AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等</li>
+<li>AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程</li>
+<li>UrlQueue URL队列对象，管理URL队列</li>
+<li>Crawl 爬虫对象，负责结合URL队列与职责链，运行爬取功能</li>
+<li>HttpGet HTTP GET请求类，负责获取HTML文本</li>
+<li>ThreadEntity 爬虫线程，实体对象</li>
+</ul>
 </li>
-<li><p>代码示例</p>
+<li><p>简单爬虫示例</p>
+<p>  以下示例为一个简单的获取HTML页面文本示例，可以做到下载文本，并进行分析，可以说是最简单的爬虫</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]</span><br><span class="line"></span><br><span class="line">double yearNum = Z.Base.Util.Parser.TryToDouble(this.cmbYear.Text, this.format);</span><br><span class="line">double monthNum = yearNum * 12;</span><br><span class="line">double gMoney = Z.Base.Util.Parser.TryToDouble(this.txtGongMoney.Text, this.format);//公积金</span><br><span class="line">double sMoney = Z.Base.Util.Parser.TryToDouble(this.txtShangMoney.Text, this.format);//商贷</span><br><span class="line"></span><br><span class="line">double gRate = Z.Base.Util.Parser.TryToDouble(this.txtGongRate.Text, this.format) / 100f;//公积金利率</span><br><span class="line">double sRate = Z.Base.Util.Parser.TryToDouble(this.txtShangRate.Text, this.format) / 100f;//商贷利率</span><br><span class="line">double sUp = Z.Base.Util.Parser.TryToDouble(this.txtShangUp.Text, this.format) / 100f;//商贷上浮</span><br><span class="line"></span><br><span class="line">double gMonthRate = gRate / 12f;</span><br><span class="line">double sMonthRate = (sRate * (1 + sUp)) / 12f;</span><br><span class="line"></span><br><span class="line">double gPower = Math.Pow(1 + gMonthRate, monthNum);</span><br><span class="line">double sPower = Math.Pow(1 + sMonthRate, monthNum);</span><br><span class="line"></span><br><span class="line">double gMonth = (gMoney * gMonthRate * gPower) / (gPower - 1);</span><br><span class="line">double sMonth = (sMoney * sMonthRate * sPower) / (sPower - 1);</span><br><span class="line"></span><br><span class="line">this.txt.Clear();</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金贷款金额：&#123;0&#125; 万元 \r\n&quot;, gMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金每月还款：&#123;0&#125; 万元 \r\n&quot;, gMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款金额：&#123;0&#125; 万元 \r\n&quot;, sMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, sMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款金额：&#123;0&#125; 万元 \r\n&quot;, (sMoney + gMoney).ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, (sMonth + gMonth).ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;还款月数：&#123;0&#125; \r\n&quot;, monthNum));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebClient wc = new WebClient();</span><br><span class="line">byte[] response = wc.DownloadData(&quot;http://www.weather.com.cn/weather/101120501.shtml&quot;);</span><br><span class="line">string ss = Encoding.UTF8.GetString(response);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>项目代码调用示例</p>
+<ul>
+<li>创建继承类，继承职责链，负责具体爬虫方法</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">public class NodeChain : AbsChain</span><br><span class="line">&#123;</span><br><span class="line">    #region 去除头部的&apos;与&quot;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 去除头部的&apos;与&quot;</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;url&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    private string RemoveQuotation(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        if ((url.IndexOf(&quot;&apos;&quot;) == 0) || (url.IndexOf(&quot;\&quot;&quot;) == 0))</span><br><span class="line">        &#123;</span><br><span class="line">            url = url.Remove(0, 1);</span><br><span class="line">            if (url.IndexOf(&quot;&apos;&quot;) != -1)</span><br><span class="line">            &#123;</span><br><span class="line">                url = url.Remove(url.IndexOf(&quot;&apos;&quot;), 1);</span><br><span class="line">            &#125;</span><br><span class="line">            if (url.IndexOf(&quot;\&quot;&quot;) != -1)</span><br><span class="line">            &#123;</span><br><span class="line">                url = url.Remove(url.IndexOf(&quot;\&quot;&quot;), 1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (url.IndexOf(&quot; &quot;) != -1)</span><br><span class="line">        &#123;</span><br><span class="line">            url = url.Remove(url.IndexOf(&quot; &quot;));</span><br><span class="line">        &#125;</span><br><span class="line">        return url;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region 处理网页</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 处理网页</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;html&quot;&gt;&lt;/param&gt;</span><br><span class="line">    protected override void Process(string html)</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            Regex re = new Regex(@&quot;href=(?&lt;web_url&gt;[\s\S]*?)&gt;|href=&quot;&quot;(?&lt;web_url&gt;[\s\S]*?)&quot;&quot;|href=&apos;(?&lt;web_url&gt;[\s\S]*?)&apos;&quot;);</span><br><span class="line">            MatchCollection mc = re.Matches(html);</span><br><span class="line">            foreach (Match m in mc)</span><br><span class="line">            &#123;</span><br><span class="line">                string url = m.Groups[&quot;web_url&quot;].ToString();</span><br><span class="line">                url = this.RemoveQuotation(url);</span><br><span class="line">                if (url.IndexOf(&quot;http://&quot;) != -1)</span><br><span class="line">                &#123;</span><br><span class="line">                    UrlQueue.GetInstance().Enqueue(url);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            string title = string.Empty;</span><br><span class="line">            re = new Regex(@&quot;&lt;title[\s\S]*?&gt;(?&lt;title&gt;[\s\S]*?)&lt;/title&gt;&quot;);</span><br><span class="line">            Match temp = re.Match(html.ToLower());</span><br><span class="line">            title = temp.Groups[&quot;title&quot;].ToString();</span><br><span class="line">            if (!string.IsNullOrEmpty(title))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(string.Format(&quot;网页标题：&#123;0&#125;&quot;,title));</span><br><span class="line">                Console.WriteLine(string.Format(&quot;网页URL：&#123;0&#125;&quot;, this.Url));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>- 创建线程管理继承类，负责重写新建职责链对象
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadManager:AbsThreadManager</span><br><span class="line">&#123;</span><br><span class="line">    protected override AbsChain GetChainHeader()</span><br><span class="line">    &#123;</span><br><span class="line">        return new NodeChain();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>- 设置URL入口，运行爬虫
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    Console.Title = System.Configuration.ConfigurationManager.AppSettings[&quot;Title&quot;].ToString();</span><br><span class="line">    Console.WriteLine(&quot;Process is running！&quot;);</span><br><span class="line">    </span><br><span class="line">    string url = System.Configuration.ConfigurationManager.AppSettings[&quot;URL&quot;].ToString();</span><br><span class="line">    UrlQueue.GetInstance().Enqueue(url);</span><br><span class="line">    ThreadManager thread = new ThreadManager();</span><br><span class="line">    thread.Start();</span><br><span class="line">&#125;</span><br><span class="line">catch (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/Loaner" target="_blank" rel="noopener">.NET-App/Loaner/</a></p>
+<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/NetSpider" target="_blank" rel="noopener">.NET-App/NetSpider/</a></p>
 </li>
 </ul>
 
@@ -426,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/14/C-键盘记录器/" rel="next" title="C# 键盘记录器">
-                <i class="fa fa-chevron-left"></i> C# 键盘记录器
+              <a href="/2018/05/14/C-房贷计算器/" rel="next" title="C# 房贷计算器">
+                <i class="fa fa-chevron-left"></i> C# 房贷计算器
               </a>
             
           </div>
@@ -435,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/15/C-爬虫小程序/" rel="prev" title="C# 爬虫小程序">
-                C# 爬虫小程序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -590,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-房贷计算器"><span class="nav-number">1.</span> <span class="nav-text">C# 房贷计算器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-爬虫小程序"><span class="nav-number">1.</span> <span class="nav-text">C# 爬虫小程序</span></a></li></ol></div>
             
 
           </div>
