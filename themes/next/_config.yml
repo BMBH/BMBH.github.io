@@ -355,7 +355,7 @@ han: false
 
 # Baidu Analytics ID
 #baidu_analytics:
-
+baidu_analytics: 0e6aaa469c26ed0a388fa2612cd183af
 # Duoshuo ShortName
 #duoshuo_shortname:
 
