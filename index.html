@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/Java多线程创建方式初探/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/C-多线程初级汇总/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="北冥冰皇">
@@ -278,7 +278,225 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/23/Java多线程创建方式初探/" itemprop="url">Java多线程创建方式初探</a></h1>
+                <a class="post-title-link" href="/2018/05/23/C-多线程初级汇总/" itemprop="url">C# 多线程初级汇总</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T15:16:17+08:00">
+                2018-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NET/" itemprop="url" rel="index">
+                    <span itemprop="name">.NET</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="异步委托"><a href="#异步委托" class="headerlink" title="异步委托"></a>异步委托</h4><pre><code>创建线程的一种简单方式是定义一个委托，并异步调用它
+
+委托是方法的类型安全的引用
+
+Delegate类还支持异步地调用方法。在后台，Delegate类会创建一个执行任务的线程
+</code></pre><ul>
+<li><p>投票，并检查委托是否完成了任务</p>
+<ul>
+<li><p>所创建的Delegate类提供了BeginInvoke()方法，该方法中，可以传递用委托类型定义的输入参数。</p>
+</li>
+<li><p>BeginInvoke()方法总是有AsyncCallback和Object类型的两个额外参数</p>
+</li>
+<li><p>BeginInvoke()方法返回类型：IAsyncResult</p>
+</li>
+<li><p>代码示例</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    // synchronous method call</span><br><span class="line">    // TakesAWhile(1,3000);</span><br><span class="line"></span><br><span class="line">    // asynchronous by using a delegate</span><br><span class="line">    TakesAWhileDelegate dl = TakesAWhile;</span><br><span class="line">    IAsyncResult ar = dl.BeginInvoke(1, 500, null, null);</span><br><span class="line">    while (!ar.IsCompleted)</span><br><span class="line">    &#123;</span><br><span class="line">        // doing something else in the main thread</span><br><span class="line">        Console.Write(&quot;.&quot;);</span><br><span class="line">        Thread.Sleep(50);</span><br><span class="line">    &#125;</span><br><span class="line">    int result = dl.EndInvoke(ar);</span><br><span class="line">    Console.WriteLine(&quot;result:&#123;0&#125;&quot;, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public delegate int TakesAWhileDelegate(int data, int ms);</span><br><span class="line"></span><br><span class="line">static int TakesAWhile(int data, int ms)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;TakesAWhile started&quot;);</span><br><span class="line">    Thread.Sleep(ms);</span><br><span class="line">    Console.WriteLine(&quot;TakesAWhile completed&quot;);</span><br><span class="line">    return ++data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>使用与IAsyncResult相关联的等待句柄</p>
+<ul>
+<li><p>使用AsyncWaitHandle属性可以访问等待句柄</p>
+</li>
+<li><p>代码示例，在此将上述示例中的While循环更改一下即可，如下</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">while (true)</span><br><span class="line">&#123;</span><br><span class="line">    Console.Write(&quot;.&quot;);</span><br><span class="line">    if (ar.AsyncWaitHandle.WaitOne(50, false))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Can get the result now&quot;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>异步回调</p>
+<ul>
+<li><p>在BeginInvoke()方法的第3个参数中，可以传递一个满足AsyncCallback委托的需求的方法</p>
+</li>
+<li><p>代码示例</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TakesAWhileDelegate dl = TakesAWhile;</span><br><span class="line">dl.BeginInvoke(1, 500, TakesAWhileCompleted, dl);</span><br><span class="line">for (int i = 0; i &lt; 100; i++)</span><br><span class="line">&#123;</span><br><span class="line">    Console.Write(&quot;.&quot;);</span><br><span class="line">    Thread.Sleep(50);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">static void TakesAWhileCompleted(IAsyncResult ar)</span><br><span class="line">&#123;</span><br><span class="line">    if (ar == null)</span><br><span class="line">        throw new ArgumentNullException(&quot;ar&quot;);</span><br><span class="line">    TakesAWhileDelegate dl = ar.AsyncState as TakesAWhileDelegate;</span><br><span class="line">    Trace.Assert(dl != null, &quot;Invalid object type&quot;);</span><br><span class="line"></span><br><span class="line">    int result = dl.EndInvoke(ar);</span><br><span class="line">    Console.WriteLine(&quot;result:&#123;0&#125;&quot;, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Thread类"><a href="#Thread类" class="headerlink" title="Thread类"></a>Thread类</h4><ul>
+<li><p>Thread类可以创建和控制线程</p>
+</li>
+<li><p>默认情况，Thread类创建线程是前台线程。线程池中的线程总是后台线程。</p>
+</li>
+<li><p>只要有一个前台线程在运行，应用程序的进程就在运行。Thread类创建线程时，可以设置IsBackground属性，以确定该线程时前台线程还是后台线程</p>
+</li>
+<li><p>代码示例</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var t1 = new Thread(ThreadMain) &#123; Name = &quot;MyNewThread&quot;, IsBackground = false &#125;;</span><br><span class="line">t1.Start();</span><br><span class="line">Console.WriteLine(&quot;Main thread ending now.&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static void ThreadMain()</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Thread &#123;0&#125; started&quot;, Thread.CurrentThread.Name);</span><br><span class="line">    Thread.Sleep(3000);</span><br><span class="line">    Console.WriteLine(&quot;Thread &#123;0&#125; completed&quot;, Thread.CurrentThread.Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><ul>
+<li><p>ThreadPool类托管，在需要时增减池中线程的线程数，直到最大的线程数</p>
+</li>
+<li><p>ThreadPool.QueueUserWorkItem()方法，传递一个WaitCallback类型的委托</p>
+</li>
+<li><p>代码示例</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int nWorkerThreads;</span><br><span class="line">int nCompletionPortThreads;</span><br><span class="line">ThreadPool.GetMaxThreads(out nWorkerThreads, out nCompletionPortThreads);</span><br><span class="line">Console.WriteLine(&quot;Max worker threads:&#123;0&#125;,I/O completion threads:&#123;1&#125;&quot;,</span><br><span class="line">    nWorkerThreads, nCompletionPortThreads);</span><br><span class="line">for (int i = 0; i &lt; 5; i++)</span><br><span class="line">&#123;</span><br><span class="line">    ThreadPool.QueueUserWorkItem(JobForAThread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void JobForAThread(object state)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; 3; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;loop&#123;0&#125;,running inside pooled thread&#123;1&#125;&quot;,</span><br><span class="line">            i, Thread.CurrentThread.ManagedThreadId);</span><br><span class="line">        Thread.Sleep(50);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h4><ul>
+<li><p>.NET 4包含新名称空间 System.Threading.Tasks，它包含的类抽象出了线程功能。在后台使用ThreadPool.</p>
+</li>
+<li><p>启动新任务</p>
+<ul>
+<li>实例化TaskFactory类，在其中把TaskMethod()方法传递给StartNew()方法</li>
+<li>使用Task类的构造函数，调用Task类的Start()方法</li>
+<li>示例代码</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//using task factory</span><br><span class="line">TaskFactory tf = new TaskFactory();</span><br><span class="line">Task t1 = tf.StartNew(TaskMethod);</span><br><span class="line"></span><br><span class="line">//using the task factory via a task</span><br><span class="line">Task t2 = Task.Factory.StartNew(TaskMethod);</span><br><span class="line"></span><br><span class="line">//using Task constructor</span><br><span class="line">Task t3 = new Task(TaskMethod);</span><br><span class="line">t3.Start();</span><br><span class="line"></span><br><span class="line">Task t4 = new Task(TaskMethod, TaskCreationOptions.PreferFairness);</span><br><span class="line">t4.Start();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static void TaskMethod()</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;running in a task&quot;);</span><br><span class="line">    Console.WriteLine(&quot;Task id:&#123;0&#125;&quot;, Task.CurrentId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/Java多线程初级汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="北冥冰皇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ico.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥冰皇">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/23/Java多线程初级汇总/" itemprop="url">Java多线程初级汇总</a></h1>
         
 
         <div class="post-meta">
@@ -352,15 +570,18 @@
       
         
           
-            <h4 id="Java多线程创建方式初探"><a href="#Java多线程创建方式初探" class="headerlink" title="Java多线程创建方式初探"></a>Java多线程创建方式初探</h4><h5 id="多线程概述"><a href="#多线程概述" class="headerlink" title="多线程概述"></a>多线程概述</h5><ul>
-<li><p>抢占式多任务    -直接中断而不需要事先和被中断程序协商</p>
+            <h4 id="多线程概述"><a href="#多线程概述" class="headerlink" title="多线程概述"></a>多线程概述</h4><ul>
+<li><p>抢占式多任务</p>
+<p>  直接中断而不需要事先和被中断程序协商</p>
 </li>
-<li><p>协作多任务    -被中断程序同意交出控制权之后才能执行中断</p>
+<li><p>协作多任务</p>
+<p>  被中断程序同意交出控制权之后才能执行中断</p>
 </li>
-<li><p>多线程和多进程区别？<br>  本质的区别在于每个进程有它自己的变量的完备集，线程则共享相同的数据</p>
+<li><p>多线程和多进程区别？</p>
+<p>  本质的区别在于每个进程有它自己的变量的完备集，线程则共享相同的数据</p>
 </li>
 </ul>
-<h5 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h5><ul>
+<h4 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h4><ul>
 <li><p>Thread(Runnable target)</p>
 <p>  构造有一个新的线程来调用指定的target的run()方法</p>
 </li>
@@ -374,13 +595,18 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadTest extends Thread &#123;</span><br><span class="line"></span><br><span class="line">    private Thread mThread;</span><br><span class="line"></span><br><span class="line">    private String mName;</span><br><span class="line"></span><br><span class="line">    private final int mCount = 4;</span><br><span class="line"></span><br><span class="line">    public ThreadTest(String name)&#123;</span><br><span class="line">        this.mName = name;</span><br><span class="line">        System.out.println(&quot;new ThreadTest&quot;+name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        System.out.println(&quot;run &quot; + this.mName);</span><br><span class="line">        try &#123;</span><br><span class="line">            for (int i = 0; i &lt; mCount; i++) &#123;</span><br><span class="line">                System.out.println(this.mName + &quot;Thread.sleep : &quot; + i);</span><br><span class="line">                Thread.sleep(50);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException ie) &#123;</span><br><span class="line">            System.out.println(&quot;InterruptedException &quot; + this.mName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;start &quot; + this.mName);</span><br><span class="line">        if (this.mThread == null) &#123;</span><br><span class="line">            this.mThread = new Thread(this);</span><br><span class="line">            this.mThread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ThreadTest thread1 = new ThreadTest(&quot;test1&quot;);</span><br><span class="line">        thread1.start();</span><br><span class="line">        ThreadTest thread2 = new ThreadTest(&quot;test2&quot;);</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h5><p>Runnable封装一个异步运行的任务</p>
-<ul>
-<li>Runnable示例测试代码</li>
+<h4 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h4><ul>
+<li><p>Runnable封装一个异步运行的任务</p>
+</li>
+<li><p>Runnable示例测试代码</p>
+</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Runnable继承类</span><br><span class="line"> */</span><br><span class="line">public class RunnableTest implements Runnable &#123;</span><br><span class="line"></span><br><span class="line">    private Thread mThread;</span><br><span class="line"></span><br><span class="line">    private String mName;</span><br><span class="line"></span><br><span class="line">    private final int mCount = 4;</span><br><span class="line"></span><br><span class="line">    public RunnableTest(String name) &#123;</span><br><span class="line">        this.mName = name;</span><br><span class="line">        System.out.println(&quot;new RunnableTest&quot; + name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;run &quot; + this.mName);</span><br><span class="line">        try &#123;</span><br><span class="line">            for (int i = 0; i &lt; mCount; i++) &#123;</span><br><span class="line">                System.out.println(this.mName + &quot;Thread.sleep : &quot; + i);</span><br><span class="line">                Thread.sleep(50);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException ie) &#123;</span><br><span class="line">            System.out.println(&quot;InterruptedException &quot; + this.mName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;start &quot; + this.mName);</span><br><span class="line">        if (this.mThread == null) &#123;</span><br><span class="line">            this.mThread = new Thread(this);</span><br><span class="line">            this.mThread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        RunnableTest run1 = new RunnableTest(&quot;test1&quot;);</span><br><span class="line">        run1.start();</span><br><span class="line">        RunnableTest run2 = new RunnableTest(&quot;test2&quot;);</span><br><span class="line">        run2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Callable和Future"><a href="#Callable和Future" class="headerlink" title="Callable和Future"></a>Callable和Future</h5><p>Callable接口是一个参数化的类型，有一个方法call<br>Future保存异步计算的结果。当使用Future对象，启动有一个计算，把计算结果给某线程，Future对象在所有者结果计算好之后就可以得到它</p>
-<ul>
+<h4 id="Callable和Future"><a href="#Callable和Future" class="headerlink" title="Callable和Future"></a>Callable和Future</h4><ul>
+<li><p>Callable接口是一个参数化的类型，有一个方法call</p>
+</li>
+<li><p>Future保存异步计算的结果。当使用Future对象，启动有一个计算，把计算结果给某线程，Future对象在所有者结果计算好之后就可以得到它</p>
+</li>
 <li><p>call()</p>
 <p>  运行一个将产生结果的任务</p>
 </li>
@@ -388,8 +614,8 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import java.util.concurrent.Callable;</span><br><span class="line">import java.util.concurrent.ExecutionException;</span><br><span class="line">import java.util.concurrent.FutureTask;</span><br><span class="line"></span><br><span class="line">public class CallableTest implements Callable&lt;Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    public Integer call() throws Exception &#123;</span><br><span class="line">        int i = 0;</span><br><span class="line">        for (; i &lt; 100; i++) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + &quot; &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">        return i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        CallableTest test = new CallableTest();</span><br><span class="line"></span><br><span class="line">        FutureTask&lt;Integer&gt; task = new FutureTask&lt;Integer&gt;(test);</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + &quot; 的循环变量i的值&quot; + i);</span><br><span class="line">            if (i == 20) &#123;</span><br><span class="line">                new Thread(task, &quot;有返回值的线程&quot;).start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            System.out.println(&quot;子线程的返回值：&quot; + task.get());</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (ExecutionException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h5><p>如果你的程序创建了大量生存期很短的线程，就应该使用线程池一个线程池包含大量准备运行的空闲线程。将一个Runnable对象给线程池，线程池中的一个线程就会调用run方法。</p>
-<ul>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><pre><code>如果你的程序创建了大量生存期很短的线程，就应该使用线程池一个线程池包含大量准备运行的空闲线程。将一个Runnable对象给线程池，线程池中的一个线程就会调用run方法。
+</code></pre><ul>
 <li>newCachedThreadPool 构建，如果有空闲线程可用，立即让它执行任务，否则创建一个新线程</li>
 <li>newFixedThreadPool 创建一个大小固定的线程池。如果提交的任务数大于空闲线程数，那么得不到服务的任务将被置于队列中</li>
 <li>newSingleTreadExecutor是一个退化了大小为1的线程池</li>
@@ -535,25 +761,11 @@
       
         
           
-            <h3 id="C-妈妈再打我一下生成器"><a href="#C-妈妈再打我一下生成器" class="headerlink" title="C# 妈妈再打我一下生成器"></a>C# 妈妈再打我一下生成器</h3><ul>
-<li><p>设计背景</p>
-<p>  网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片</p>
-</li>
-<li><p>设计思路</p>
-<p>  GDI+ 绘图技术，在图片基础上添加文字</p>
-</li>
-<li><p>相关技术</p>
-<p>  GDI+</p>
-</li>
-<li><p>代码示例</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Image imag = pictureBox1.Image;</span><br><span class="line">   Graphics g = Graphics.FromImage(imag);</span><br><span class="line">   Font font = new System.Drawing.Font(&quot;宋体&quot;, 12, (System.Drawing.FontStyle.Bold));</span><br><span class="line">   LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, imag.Width, imag.Height), Color.Red, Color.Red, 1.2f, true);</span><br><span class="line">   g.DrawString(this.txtUp.Text, font, brush, 50, 150);</span><br><span class="line">   g.DrawString(this.txtMiddle.Text, font, brush, 50, 320);</span><br><span class="line">   g.DrawString(this.txtDown.Text, font, brush, 50, 500);</span><br><span class="line">   g.Dispose();</span><br><span class="line"></span><br><span class="line">   pictureBox1.Image = imag;</span><br><span class="line"></span><br><span class="line">   Clipboard.SetDataObject(pictureBox1.Image);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/PicGenerater" target="_blank" rel="noopener">.NET-App/PicGenerater/</a></p>
-</li>
-</ul>
+            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>GDI+ 绘图技术，在图片基础上添加文字
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><pre><code>GDI+
+</code></pre><h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Image imag = pictureBox1.Image;</span><br><span class="line">   Graphics g = Graphics.FromImage(imag);</span><br><span class="line">   Font font = new System.Drawing.Font(&quot;宋体&quot;, 12, (System.Drawing.FontStyle.Bold));</span><br><span class="line">   LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, imag.Width, imag.Height), Color.Red, Color.Red, 1.2f, true);</span><br><span class="line">   g.DrawString(this.txtUp.Text, font, brush, 50, 150);</span><br><span class="line">   g.DrawString(this.txtMiddle.Text, font, brush, 50, 320);</span><br><span class="line">   g.DrawString(this.txtDown.Text, font, brush, 50, 500);</span><br><span class="line">   g.Dispose();</span><br><span class="line"></span><br><span class="line">   pictureBox1.Image = imag;</span><br><span class="line"></span><br><span class="line">   Clipboard.SetDataObject(pictureBox1.Image);</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/PicGenerater" target="_blank" rel="noopener">.NET-App/PicGenerater/</a></p>
 
           
         
@@ -695,51 +907,54 @@
       
         
           
-            <h3 id="C-爬虫小程序"><a href="#C-爬虫小程序" class="headerlink" title="C# 爬虫小程序"></a>C# 爬虫小程序</h3><ul>
-<li><p>设计思路</p>
-<p>  主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。</p>
-</li>
-<li><p>相关技术</p>
-<ul>
+            <h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
 <li>抽象类</li>
 <li>多线程 </li>
 <li>队列</li>
 <li>Http Get请求</li>
 <li>字符串解析</li>
 </ul>
+<h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><ul>
+<li><p>AbsChain </p>
+<p>职责链抽象类，负责定义HTML处理方法，定义递归处理方法等</p>
 </li>
-<li><p>项目结构</p>
-<ul>
-<li>AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等</li>
-<li>AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程</li>
-<li>UrlQueue URL队列对象，管理URL队列</li>
-<li>Crawl 爬虫对象，负责结合URL队列与职责链，运行爬取功能</li>
-<li>HttpGet HTTP GET请求类，负责获取HTML文本</li>
-<li>ThreadEntity 爬虫线程，实体对象</li>
-</ul>
-</li>
-<li><p>简单爬虫示例</p>
-<p>  以下示例为一个简单的获取HTML页面文本示例，可以做到下载文本，并进行分析，可以说是最简单的爬虫</p>
+<li><p>AbsThreadManager</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebClient wc = new WebClient();</span><br><span class="line">byte[] response = wc.DownloadData(&quot;http://www.weather.com.cn/weather/101120501.shtml&quot;);</span><br><span class="line">string ss = Encoding.UTF8.GetString(response);</span><br></pre></td></tr></table></figure>
+<p>线程管理抽象类，负责定义守望线程，管理多线程</p>
 <ul>
-<li><p>项目代码调用示例</p>
+<li>UrlQueue </li>
+</ul>
+<p>URL队列对象，管理URL队列</p>
 <ul>
+<li>Crawl</li>
+</ul>
+<p>爬虫对象，负责结合URL队列与职责链，运行爬取功能</p>
+<ul>
+<li>HttpGet</li>
+</ul>
+<p>HTTP GET请求类，负责获取HTML文本</p>
+<ul>
+<li><p>ThreadEntity</p>
+<p>爬虫线程，实体对象</p>
+</li>
+</ul>
+<h4 id="简单爬虫示例"><a href="#简单爬虫示例" class="headerlink" title="简单爬虫示例"></a>简单爬虫示例</h4><pre><code>以下示例为一个简单的获取HTML页面文本示例，可以做到下载文本，并进行分析，可以说是最简单的爬虫
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebClient wc = new WebClient();</span><br><span class="line">byte[] response = wc.DownloadData(&quot;http://www.weather.com.cn/weather/101120501.shtml&quot;);</span><br><span class="line">string ss = Encoding.UTF8.GetString(response);</span><br></pre></td></tr></table></figure>
+<h4 id="项目代码调用示例"><a href="#项目代码调用示例" class="headerlink" title="项目代码调用示例"></a>项目代码调用示例</h4><ul>
 <li>创建继承类，继承职责链，负责具体爬虫方法</li>
 </ul>
-</li>
-</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">public class NodeChain : AbsChain</span><br><span class="line">&#123;</span><br><span class="line">    #region 去除头部的&apos;与&quot;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 去除头部的&apos;与&quot;</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;url&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    private string RemoveQuotation(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        if ((url.IndexOf(&quot;&apos;&quot;) == 0) || (url.IndexOf(&quot;\&quot;&quot;) == 0))</span><br><span class="line">        &#123;</span><br><span class="line">            url = url.Remove(0, 1);</span><br><span class="line">            if (url.IndexOf(&quot;&apos;&quot;) != -1)</span><br><span class="line">            &#123;</span><br><span class="line">                url = url.Remove(url.IndexOf(&quot;&apos;&quot;), 1);</span><br><span class="line">            &#125;</span><br><span class="line">            if (url.IndexOf(&quot;\&quot;&quot;) != -1)</span><br><span class="line">            &#123;</span><br><span class="line">                url = url.Remove(url.IndexOf(&quot;\&quot;&quot;), 1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (url.IndexOf(&quot; &quot;) != -1)</span><br><span class="line">        &#123;</span><br><span class="line">            url = url.Remove(url.IndexOf(&quot; &quot;));</span><br><span class="line">        &#125;</span><br><span class="line">        return url;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region 处理网页</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 处理网页</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;html&quot;&gt;&lt;/param&gt;</span><br><span class="line">    protected override void Process(string html)</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            Regex re = new Regex(@&quot;href=(?&lt;web_url&gt;[\s\S]*?)&gt;|href=&quot;&quot;(?&lt;web_url&gt;[\s\S]*?)&quot;&quot;|href=&apos;(?&lt;web_url&gt;[\s\S]*?)&apos;&quot;);</span><br><span class="line">            MatchCollection mc = re.Matches(html);</span><br><span class="line">            foreach (Match m in mc)</span><br><span class="line">            &#123;</span><br><span class="line">                string url = m.Groups[&quot;web_url&quot;].ToString();</span><br><span class="line">                url = this.RemoveQuotation(url);</span><br><span class="line">                if (url.IndexOf(&quot;http://&quot;) != -1)</span><br><span class="line">                &#123;</span><br><span class="line">                    UrlQueue.GetInstance().Enqueue(url);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            string title = string.Empty;</span><br><span class="line">            re = new Regex(@&quot;&lt;title[\s\S]*?&gt;(?&lt;title&gt;[\s\S]*?)&lt;/title&gt;&quot;);</span><br><span class="line">            Match temp = re.Match(html.ToLower());</span><br><span class="line">            title = temp.Groups[&quot;title&quot;].ToString();</span><br><span class="line">            if (!string.IsNullOrEmpty(title))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(string.Format(&quot;网页标题：&#123;0&#125;&quot;,title));</span><br><span class="line">                Console.WriteLine(string.Format(&quot;网页URL：&#123;0&#125;&quot;, this.Url));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>- 创建线程管理继承类，负责重写新建职责链对象
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadManager:AbsThreadManager</span><br><span class="line">&#123;</span><br><span class="line">    protected override AbsChain GetChainHeader()</span><br><span class="line">    &#123;</span><br><span class="line">        return new NodeChain();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>- 设置URL入口，运行爬虫
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    Console.Title = System.Configuration.ConfigurationManager.AppSettings[&quot;Title&quot;].ToString();</span><br><span class="line">    Console.WriteLine(&quot;Process is running！&quot;);</span><br><span class="line">    </span><br><span class="line">    string url = System.Configuration.ConfigurationManager.AppSettings[&quot;URL&quot;].ToString();</span><br><span class="line">    UrlQueue.GetInstance().Enqueue(url);</span><br><span class="line">    ThreadManager thread = new ThreadManager();</span><br><span class="line">    thread.Start();</span><br><span class="line">&#125;</span><br><span class="line">catch (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/NetSpider" target="_blank" rel="noopener">.NET-App/NetSpider/</a></p>
-</li>
+<li>创建线程管理继承类，负责重写新建职责链对象</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadManager:AbsThreadManager</span><br><span class="line">&#123;</span><br><span class="line">    protected override AbsChain GetChainHeader()</span><br><span class="line">    &#123;</span><br><span class="line">        return new NodeChain();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置URL入口，运行爬虫</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    Console.Title = System.Configuration.ConfigurationManager.AppSettings[&quot;Title&quot;].ToString();</span><br><span class="line">    Console.WriteLine(&quot;Process is running！&quot;);</span><br><span class="line">    </span><br><span class="line">    string url = System.Configuration.ConfigurationManager.AppSettings[&quot;URL&quot;].ToString();</span><br><span class="line">    UrlQueue.GetInstance().Enqueue(url);</span><br><span class="line">    ThreadManager thread = new ThreadManager();</span><br><span class="line">    thread.Start();</span><br><span class="line">&#125;</span><br><span class="line">catch (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/NetSpider" target="_blank" rel="noopener">.NET-App/NetSpider/</a></p>
 
           
         
@@ -881,31 +1096,15 @@
       
         
           
-            <h3 id="C-房贷计算器"><a href="#C-房贷计算器" class="headerlink" title="C# 房贷计算器"></a>C# 房贷计算器</h3><ul>
-<li><p>设计背景</p>
-<p>  百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。</p>
-</li>
-<li><p>设计思路</p>
-<p>  根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]</p>
-</li>
-<li><p>相关技术</p>
-<ul>
+            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
 <li>WinForm 键入事件</li>
 <li>字符串与浮点型数据转换</li>
 </ul>
-</li>
-<li><p>功能</p>
-<p>  键入相关数据， 进行计算即可</p>
-</li>
-<li><p>代码示例</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]</span><br><span class="line"></span><br><span class="line">double yearNum = Z.Base.Util.Parser.TryToDouble(this.cmbYear.Text, this.format);</span><br><span class="line">double monthNum = yearNum * 12;</span><br><span class="line">double gMoney = Z.Base.Util.Parser.TryToDouble(this.txtGongMoney.Text, this.format);//公积金</span><br><span class="line">double sMoney = Z.Base.Util.Parser.TryToDouble(this.txtShangMoney.Text, this.format);//商贷</span><br><span class="line"></span><br><span class="line">double gRate = Z.Base.Util.Parser.TryToDouble(this.txtGongRate.Text, this.format) / 100f;//公积金利率</span><br><span class="line">double sRate = Z.Base.Util.Parser.TryToDouble(this.txtShangRate.Text, this.format) / 100f;//商贷利率</span><br><span class="line">double sUp = Z.Base.Util.Parser.TryToDouble(this.txtShangUp.Text, this.format) / 100f;//商贷上浮</span><br><span class="line"></span><br><span class="line">double gMonthRate = gRate / 12f;</span><br><span class="line">double sMonthRate = (sRate * (1 + sUp)) / 12f;</span><br><span class="line"></span><br><span class="line">double gPower = Math.Pow(1 + gMonthRate, monthNum);</span><br><span class="line">double sPower = Math.Pow(1 + sMonthRate, monthNum);</span><br><span class="line"></span><br><span class="line">double gMonth = (gMoney * gMonthRate * gPower) / (gPower - 1);</span><br><span class="line">double sMonth = (sMoney * sMonthRate * sPower) / (sPower - 1);</span><br><span class="line"></span><br><span class="line">this.txt.Clear();</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金贷款金额：&#123;0&#125; 万元 \r\n&quot;, gMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金每月还款：&#123;0&#125; 万元 \r\n&quot;, gMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款金额：&#123;0&#125; 万元 \r\n&quot;, sMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, sMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款金额：&#123;0&#125; 万元 \r\n&quot;, (sMoney + gMoney).ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, (sMonth + gMonth).ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;还款月数：&#123;0&#125; \r\n&quot;, monthNum));</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/Loaner" target="_blank" rel="noopener">.NET-App/Loaner/</a></p>
-</li>
-</ul>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><pre><code>键入相关数据， 进行计算即可
+</code></pre><h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]</span><br><span class="line"></span><br><span class="line">double yearNum = Z.Base.Util.Parser.TryToDouble(this.cmbYear.Text, this.format);</span><br><span class="line">double monthNum = yearNum * 12;</span><br><span class="line">double gMoney = Z.Base.Util.Parser.TryToDouble(this.txtGongMoney.Text, this.format);//公积金</span><br><span class="line">double sMoney = Z.Base.Util.Parser.TryToDouble(this.txtShangMoney.Text, this.format);//商贷</span><br><span class="line"></span><br><span class="line">double gRate = Z.Base.Util.Parser.TryToDouble(this.txtGongRate.Text, this.format) / 100f;//公积金利率</span><br><span class="line">double sRate = Z.Base.Util.Parser.TryToDouble(this.txtShangRate.Text, this.format) / 100f;//商贷利率</span><br><span class="line">double sUp = Z.Base.Util.Parser.TryToDouble(this.txtShangUp.Text, this.format) / 100f;//商贷上浮</span><br><span class="line"></span><br><span class="line">double gMonthRate = gRate / 12f;</span><br><span class="line">double sMonthRate = (sRate * (1 + sUp)) / 12f;</span><br><span class="line"></span><br><span class="line">double gPower = Math.Pow(1 + gMonthRate, monthNum);</span><br><span class="line">double sPower = Math.Pow(1 + sMonthRate, monthNum);</span><br><span class="line"></span><br><span class="line">double gMonth = (gMoney * gMonthRate * gPower) / (gPower - 1);</span><br><span class="line">double sMonth = (sMoney * sMonthRate * sPower) / (sPower - 1);</span><br><span class="line"></span><br><span class="line">this.txt.Clear();</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金贷款金额：&#123;0&#125; 万元 \r\n&quot;, gMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;公积金每月还款：&#123;0&#125; 万元 \r\n&quot;, gMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款金额：&#123;0&#125; 万元 \r\n&quot;, sMoney.ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;商业贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, sMonth.ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款金额：&#123;0&#125; 万元 \r\n&quot;, (sMoney + gMoney).ToString(this.format)));</span><br><span class="line">this.txt.AppendText(string.Format(&quot;总贷款每月还款：&#123;0&#125; 万元 \r\n&quot;, (sMonth + gMonth).ToString(this.format)));</span><br><span class="line"></span><br><span class="line">this.txt.AppendText(string.Format(&quot;还款月数：&#123;0&#125; \r\n&quot;, monthNum));</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/Loaner" target="_blank" rel="noopener">.NET-App/Loaner/</a></p>
 
           
         
@@ -1047,29 +1246,12 @@
       
         
           
-            <h3 id="C-键盘记录器"><a href="#C-键盘记录器" class="headerlink" title="C# 键盘记录器"></a>C# 键盘记录器</h3><hr>
-<ul>
-<li><p>设计背景</p>
-<p>  Win系统带有API可以获取键入值，本小程序主要应用了一个网上广为流传的类，可以说一个测试DEMO。有俗称为键盘钩子</p>
-</li>
-<li><p>设计思路</p>
-<p>  使用Win API获取建入值</p>
-</li>
-<li><p>相关技术</p>
-<p>  Win API</p>
-</li>
-<li><p>功能</p>
-<p>  开启记录，记录每个键盘键入值，最终可以导出</p>
-</li>
-<li><p>主要类</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line">class globalKeyboardHook</span><br><span class="line">&#123;</span><br><span class="line">    #region Constant, Structure and Delegate Definitions</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// defines the callback type for the hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public delegate int keyboardHookProc(int code, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    public struct keyboardHookStruct</span><br><span class="line">    &#123;</span><br><span class="line">        public int vkCode;</span><br><span class="line">        public int scanCode;</span><br><span class="line">        public int flags;</span><br><span class="line">        public int time;</span><br><span class="line">        public int dwExtraInfo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const int WH_KEYBOARD_LL = 13;</span><br><span class="line">    const int WM_KEYDOWN = 0x100;</span><br><span class="line">    const int WM_KEYUP = 0x101;</span><br><span class="line">    const int WM_SYSKEYDOWN = 0x104;</span><br><span class="line">    const int WM_SYSKEYUP = 0x105;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Instance Variables</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The collections of keys to watch for</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    //public List&lt;Keys&gt; HookedKeys = new List&lt;Keys&gt;();</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Handle to the hook, need this to unhook and call the next hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    IntPtr hhook = IntPtr.Zero;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Events</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is pressed</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyDown;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is released</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyUp;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Constructors and Destructors</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Initializes a new instance of the &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; class and installs the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        hook();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Releases unmanaged resources and performs other cleanup operations before the</span><br><span class="line">    /// &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; is reclaimed by garbage collection and uninstalls the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    ~globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        unhook();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Public Methods</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Installs the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void hook()</span><br><span class="line">    &#123;</span><br><span class="line">        IntPtr hInstance = LoadLibrary(&quot;User32&quot;);</span><br><span class="line">        hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hInstance, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Uninstalls the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void unhook()</span><br><span class="line">    &#123;</span><br><span class="line">        UnhookWindowsHookEx(hhook);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The callback for the keyboard hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;code&quot;&gt;The hook code, if it isn&apos;t &gt;= 0, the function shouldn&apos;t do anyting&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The event type&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The keyhook event information&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public int hookProc(int code, int wParam, ref keyboardHookStruct lParam)</span><br><span class="line">    &#123;</span><br><span class="line">        if (code &gt;= 0)</span><br><span class="line">        &#123;</span><br><span class="line">            Keys key = (Keys)lParam.vkCode;</span><br><span class="line">            //if (HookedKeys.Contains(key))</span><br><span class="line">            //&#123;</span><br><span class="line">                KeyEventArgs kea = new KeyEventArgs(key);</span><br><span class="line">                if ((wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) &amp;&amp; (KeyDown != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyDown(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                else if ((wParam == WM_KEYUP || wParam == WM_SYSKEYUP) &amp;&amp; (KeyUp != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyUp(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                if (kea.Handled)</span><br><span class="line">                    return 1;</span><br><span class="line">            //&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return CallNextHookEx(hhook, code, wParam, ref lParam);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region DLL imports</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Sets the windows hook, do the desired event, one of hInstance or threadId must be non-null</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The id of the event you want to hook&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;callback&quot;&gt;The callback.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The handle you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;threadId&quot;&gt;The thread you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;a handle to the desired hook&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern IntPtr SetWindowsHookEx(int idHook, keyboardHookProc callback, IntPtr hInstance, uint threadId);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Unhooks the windows hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The hook handle that was returned from SetWindowsHookEx&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;True if successful, false otherwise&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern bool UnhookWindowsHookEx(IntPtr hInstance);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Calls the next hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The hook id&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;nCode&quot;&gt;The hook code&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The wparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The lparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Loads the library.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;lpFileName&quot;&gt;Name of the library&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;A handle to the library&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;kernel32.dll&quot;)]</span><br><span class="line">    static extern IntPtr LoadLibrary(string lpFileName);</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/KeyboardRecord" target="_blank" rel="noopener">.NET-App/KeyboardRecord/</a></p>
-</li>
-</ul>
+            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>Win系统带有API可以获取键入值，本小程序主要应用了一个网上广为流传的类，可以说一个测试DEMO。有俗称为键盘钩子
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>使用Win API获取建入值
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><pre><code>Win API
+</code></pre><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><pre><code>开启记录，记录每个键盘键入值，最终可以导出
+</code></pre><h4 id="主要类"><a href="#主要类" class="headerlink" title="主要类"></a>主要类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line">class globalKeyboardHook</span><br><span class="line">&#123;</span><br><span class="line">    #region Constant, Structure and Delegate Definitions</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// defines the callback type for the hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public delegate int keyboardHookProc(int code, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    public struct keyboardHookStruct</span><br><span class="line">    &#123;</span><br><span class="line">        public int vkCode;</span><br><span class="line">        public int scanCode;</span><br><span class="line">        public int flags;</span><br><span class="line">        public int time;</span><br><span class="line">        public int dwExtraInfo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const int WH_KEYBOARD_LL = 13;</span><br><span class="line">    const int WM_KEYDOWN = 0x100;</span><br><span class="line">    const int WM_KEYUP = 0x101;</span><br><span class="line">    const int WM_SYSKEYDOWN = 0x104;</span><br><span class="line">    const int WM_SYSKEYUP = 0x105;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Instance Variables</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The collections of keys to watch for</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    //public List&lt;Keys&gt; HookedKeys = new List&lt;Keys&gt;();</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Handle to the hook, need this to unhook and call the next hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    IntPtr hhook = IntPtr.Zero;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Events</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is pressed</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyDown;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is released</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyUp;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Constructors and Destructors</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Initializes a new instance of the &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; class and installs the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        hook();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Releases unmanaged resources and performs other cleanup operations before the</span><br><span class="line">    /// &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; is reclaimed by garbage collection and uninstalls the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    ~globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        unhook();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Public Methods</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Installs the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void hook()</span><br><span class="line">    &#123;</span><br><span class="line">        IntPtr hInstance = LoadLibrary(&quot;User32&quot;);</span><br><span class="line">        hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hInstance, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Uninstalls the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void unhook()</span><br><span class="line">    &#123;</span><br><span class="line">        UnhookWindowsHookEx(hhook);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The callback for the keyboard hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;code&quot;&gt;The hook code, if it isn&apos;t &gt;= 0, the function shouldn&apos;t do anyting&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The event type&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The keyhook event information&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public int hookProc(int code, int wParam, ref keyboardHookStruct lParam)</span><br><span class="line">    &#123;</span><br><span class="line">        if (code &gt;= 0)</span><br><span class="line">        &#123;</span><br><span class="line">            Keys key = (Keys)lParam.vkCode;</span><br><span class="line">            //if (HookedKeys.Contains(key))</span><br><span class="line">            //&#123;</span><br><span class="line">                KeyEventArgs kea = new KeyEventArgs(key);</span><br><span class="line">                if ((wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) &amp;&amp; (KeyDown != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyDown(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                else if ((wParam == WM_KEYUP || wParam == WM_SYSKEYUP) &amp;&amp; (KeyUp != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyUp(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                if (kea.Handled)</span><br><span class="line">                    return 1;</span><br><span class="line">            //&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return CallNextHookEx(hhook, code, wParam, ref lParam);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region DLL imports</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Sets the windows hook, do the desired event, one of hInstance or threadId must be non-null</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The id of the event you want to hook&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;callback&quot;&gt;The callback.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The handle you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;threadId&quot;&gt;The thread you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;a handle to the desired hook&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern IntPtr SetWindowsHookEx(int idHook, keyboardHookProc callback, IntPtr hInstance, uint threadId);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Unhooks the windows hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The hook handle that was returned from SetWindowsHookEx&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;True if successful, false otherwise&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern bool UnhookWindowsHookEx(IntPtr hInstance);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Calls the next hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The hook id&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;nCode&quot;&gt;The hook code&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The wparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The lparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Loads the library.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;lpFileName&quot;&gt;Name of the library&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;A handle to the library&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;kernel32.dll&quot;)]</span><br><span class="line">    static extern IntPtr LoadLibrary(string lpFileName);</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/KeyboardRecord" target="_blank" rel="noopener">.NET-App/KeyboardRecord/</a></p>
 
           
         
@@ -1211,47 +1393,33 @@
       
         
           
-            <h3 id="C-抽签小程序"><a href="#C-抽签小程序" class="headerlink" title="C# 抽签小程序"></a>C# 抽签小程序</h3><ul>
-<li><p>设计背景</p>
-<p>  设置一个Excel名单表，对名单进行随机抽取。</p>
-</li>
-<li><p>设计思路</p>
-<p>  使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果</p>
-</li>
-<li><p>相关技术</p>
-<ul>
+            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>设置一个Excel名单表，对名单进行随机抽取。
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
 <li>随机数</li>
 <li>Excel读取/导出</li>
 <li>XML文档读写</li>
 </ul>
-</li>
-<li><p>相关类库</p>
-<ul>
-<li>C1.C1Excel Excel操作相关</li>
-</ul>
-</li>
-<li><p>功能</p>
-<ul>
+<h4 id="相关类库"><a href="#相关类库" class="headerlink" title="相关类库"></a>相关类库</h4><p>C1.C1Excel Excel操作相关</p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ul>
 <li>读取Excel名单</li>
 <li>名单随机抽签</li>
 <li>评分功能</li>
 <li>Excel导出功能</li>
 </ul>
-</li>
-<li><p>代码示例</p>
-</li>
+<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><ul>
+<li>导入名单</li>
 </ul>
-<pre><code>- 导入名单
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())</span><br><span class="line">&#123;</span><br><span class="line">    dialog.InitialDirectory = Application.StartupPath;</span><br><span class="line">    dialog.Filter = &quot;Excel文件(*.xls)|*.xls&quot;;</span><br><span class="line">    dialog.CheckFileExists = true;</span><br><span class="line">    if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        this.txtList.Text = dialog.FileName;</span><br><span class="line">        this.dt = ImportExcel(dialog.FileName, false, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>- 随机抽签
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Random rd = new Random();</span><br><span class="line">this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();</span><br></pre></td></tr></table></figure>
-<pre><code>- 评分导出
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">string apppath = Application.ExecutablePath;</span><br><span class="line">apppath = apppath.Substring(0, apppath.LastIndexOf(&quot;\\&quot;));</span><br><span class="line">if (File.Exists(apppath + &quot;\\Evaluation.xml&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument xmlDoc = new XmlDocument();</span><br><span class="line">    xmlDoc.Load(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">    XmlNodeList nodeList = xmlDoc.SelectNodes(&quot;//Evaluation//Evaluation&quot;);</span><br><span class="line"></span><br><span class="line">    DataTable dt = new DataTable();</span><br><span class="line">    dt.Columns.Add(&quot;姓名&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;评分&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;时间&quot;);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; nodeList.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        DataRow dr = dt.NewRow();</span><br><span class="line">        XmlElement xe = (XmlElement)nodeList[i];</span><br><span class="line">        dr[0] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Name&quot;)[i]).InnerText;</span><br><span class="line">        dr[1] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Points&quot;)[i]).InnerText;</span><br><span class="line">        dr[2] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Time&quot;)[i]).InnerText;</span><br><span class="line">        dt.Rows.Add(dr);</span><br><span class="line">    &#125;</span><br><span class="line">    ExportTo(&quot;Evaluation&quot;, &quot;Evaluation&quot;, dt);</span><br><span class="line">    MessageBox.Show(&quot;导出评分表将删除评分记录，请自行保存！&quot;);</span><br><span class="line">    File.Delete(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;无评分记录！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())</span><br><span class="line">&#123;</span><br><span class="line">    dialog.InitialDirectory = Application.StartupPath;</span><br><span class="line">    dialog.Filter = &quot;Excel文件(*.xls)|*.xls&quot;;</span><br><span class="line">    dialog.CheckFileExists = true;</span><br><span class="line">    if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        this.txtList.Text = dialog.FileName;</span><br><span class="line">        this.dt = ImportExcel(dialog.FileName, false, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/Draw" target="_blank" rel="noopener">.NET-App/Draw/</a></p>
-</li>
+<li>随机抽签</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Random rd = new Random();</span><br><span class="line">this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>评分导出</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">string apppath = Application.ExecutablePath;</span><br><span class="line">apppath = apppath.Substring(0, apppath.LastIndexOf(&quot;\\&quot;));</span><br><span class="line">if (File.Exists(apppath + &quot;\\Evaluation.xml&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument xmlDoc = new XmlDocument();</span><br><span class="line">    xmlDoc.Load(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">    XmlNodeList nodeList = xmlDoc.SelectNodes(&quot;//Evaluation//Evaluation&quot;);</span><br><span class="line"></span><br><span class="line">    DataTable dt = new DataTable();</span><br><span class="line">    dt.Columns.Add(&quot;姓名&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;评分&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;时间&quot;);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; nodeList.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        DataRow dr = dt.NewRow();</span><br><span class="line">        XmlElement xe = (XmlElement)nodeList[i];</span><br><span class="line">        dr[0] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Name&quot;)[i]).InnerText;</span><br><span class="line">        dr[1] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Points&quot;)[i]).InnerText;</span><br><span class="line">        dr[2] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Time&quot;)[i]).InnerText;</span><br><span class="line">        dt.Rows.Add(dr);</span><br><span class="line">    &#125;</span><br><span class="line">    ExportTo(&quot;Evaluation&quot;, &quot;Evaluation&quot;, dt);</span><br><span class="line">    MessageBox.Show(&quot;导出评分表将删除评分记录，请自行保存！&quot;);</span><br><span class="line">    File.Delete(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;无评分记录！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/Draw" target="_blank" rel="noopener">.NET-App/Draw/</a></p>
 
           
         
@@ -1393,15 +1561,9 @@
       
         
           
-            <h3 id="C-QR二维码DEMO"><a href="#C-QR二维码DEMO" class="headerlink" title="C# QR二维码DEMO"></a>C# QR二维码DEMO</h3><ul>
-<li><p>QR二维码</p>
-<p>  二维码的一种</p>
-</li>
-<li><p>相关类库</p>
-<p>  ThoughtWorks.QRCode 第三方类库</p>
-</li>
-<li><p>DEMO功能</p>
-<ul>
+            <h4 id="QR二维码"><a href="#QR二维码" class="headerlink" title="QR二维码"></a>QR二维码</h4><pre><code>二维码的一种
+</code></pre><h4 id="相关类库"><a href="#相关类库" class="headerlink" title="相关类库"></a>相关类库</h4><pre><code>ThoughtWorks.QRCode 第三方类库
+</code></pre><h4 id="DEMO功能"><a href="#DEMO功能" class="headerlink" title="DEMO功能"></a>DEMO功能</h4><ul>
 <li><p>Encode 生成二维码图片</p>
 <ul>
 <li>Encoding 编码</li>
@@ -1413,20 +1575,9 @@
 <li><p>Decode 解密二维码</p>
 </li>
 </ul>
-</li>
-<li><p>生成二维码代码</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ThoughtWorks.QRCode.Codec.QRCodeEncoder qrEncoder = new QRCodeEncoder();</span><br><span class="line">qrEncoder.QRCodeEncodeMode = this.GetQRCodeEncodeMode();</span><br><span class="line">qrEncoder.QRCodeErrorCorrect = this.GetQRCodeErrorCorrect();</span><br><span class="line">qrEncoder.QRCodeVersion = this.GetQRCodeVersion();</span><br><span class="line">qrEncoder.QRCodeScale = this.GetQRCodeScale();</span><br><span class="line">Bitmap image = qrEncoder.Encode(this.txtData.Text, Encoding.Default);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>解密二维码代码</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    QRCodeDecoder decoder = new QRCodeDecoder();</span><br><span class="line">    //QRCodeDecoder.Canvas = new ConsoleCanvas();</span><br><span class="line">    String decodedString = decoder.decode(new QRCodeBitmapImage(new Bitmap(this.picDecode.Image)));</span><br><span class="line">    this.txtShow.Text = decodedString;</span><br><span class="line">&#125;</span><br><span class="line">catch (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(ex.Message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-Demo/tree/master/QRCode" target="_blank" rel="noopener">.NET-Demo/QRCode/</a></p>
-</li>
-</ul>
+<h4 id="生成二维码代码"><a href="#生成二维码代码" class="headerlink" title="生成二维码代码"></a>生成二维码代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ThoughtWorks.QRCode.Codec.QRCodeEncoder qrEncoder = new QRCodeEncoder();</span><br><span class="line">qrEncoder.QRCodeEncodeMode = this.GetQRCodeEncodeMode();</span><br><span class="line">qrEncoder.QRCodeErrorCorrect = this.GetQRCodeErrorCorrect();</span><br><span class="line">qrEncoder.QRCodeVersion = this.GetQRCodeVersion();</span><br><span class="line">qrEncoder.QRCodeScale = this.GetQRCodeScale();</span><br><span class="line">Bitmap image = qrEncoder.Encode(this.txtData.Text, Encoding.Default);</span><br></pre></td></tr></table></figure>
+<h4 id="解密二维码代码"><a href="#解密二维码代码" class="headerlink" title="解密二维码代码"></a>解密二维码代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">&#123;</span><br><span class="line">    QRCodeDecoder decoder = new QRCodeDecoder();</span><br><span class="line">    //QRCodeDecoder.Canvas = new ConsoleCanvas();</span><br><span class="line">    String decodedString = decoder.decode(new QRCodeBitmapImage(new Bitmap(this.picDecode.Image)));</span><br><span class="line">    this.txtShow.Text = decodedString;</span><br><span class="line">&#125;</span><br><span class="line">catch (Exception ex)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(ex.Message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-Demo/tree/master/QRCode" target="_blank" rel="noopener">.NET-Demo/QRCode/</a></p>
 
           
         
@@ -1568,13 +1719,8 @@
       
         
           
-            <h3 id="C-Socket模拟发送接收"><a href="#C-Socket模拟发送接收" class="headerlink" title="C# Socket模拟发送接收"></a>C# Socket模拟发送接收</h3><ul>
-<li>Socket简介</li>
-</ul>
-<pre><code>通过TCP/IP与仪器或设备通讯，在C#语言中，我们通常采用Socket。本项目是一个简单的Socket建立服务监听与Socket作为客户端请求的一个示例。
-</code></pre><ul>
-<li><p>项目结构</p>
-<ul>
+            <h4 id="Socket简介"><a href="#Socket简介" class="headerlink" title="Socket简介"></a>Socket简介</h4><pre><code>通过TCP/IP与仪器或设备通讯，在C#语言中，我们通常采用Socket。本项目是一个简单的Socket建立服务监听与Socket作为客户端请求的一个示例。
+</code></pre><h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><ul>
 <li><p>客户端项目 SocketClient</p>
 <p>  主要负责作为Socket客户端发起连接请求，并发送数据</p>
 </li>
@@ -1582,24 +1728,16 @@
 <p>  主要负责作为Socket服务端，监听端口并接收连接请求，并返回应答数据</p>
 </li>
 </ul>
-</li>
-<li><p>项目演示</p>
-<ul>
+<h4 id="项目演示"><a href="#项目演示" class="headerlink" title="项目演示"></a>项目演示</h4><ul>
 <li>先运行SocketDemo进行服务监听</li>
 </ul>
-</li>
-</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(&quot;Starting:Creating Socket object&quot;);</span><br><span class="line">Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);</span><br><span class="line">listener.Bind(new IPEndPoint(IPAddress.Any, 2112));</span><br><span class="line">listener.Listen(10);</span><br><span class="line"></span><br><span class="line">while (true)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Waiting for connection on port 2112&quot;);</span><br><span class="line">    Socket socket = listener.Accept();</span><br><span class="line">    string receivedValue = string.Empty;</span><br><span class="line"></span><br><span class="line">    while (true)</span><br><span class="line">    &#123;</span><br><span class="line">        byte[] receivedBytes = new byte[1024];</span><br><span class="line">        int numBytes = socket.Receive(receivedBytes);</span><br><span class="line">        Console.WriteLine(&quot;Receiving.&quot;);</span><br><span class="line">        receivedValue += Encoding.ASCII.GetString(receivedBytes, 0, numBytes);</span><br><span class="line">        if (receivedValue.IndexOf(&quot;[FINAL]&quot;) &gt; -1)</span><br><span class="line">        &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(&quot;Received value:&#123;0&#125;&quot;, receivedValue);</span><br><span class="line">    string replyValue = &quot;Message successfully received.&quot;;</span><br><span class="line">    byte[] replyMessage = Encoding.ASCII.GetBytes(replyValue);</span><br><span class="line">    socket.Send(replyMessage);</span><br><span class="line">    socket.Shutdown(SocketShutdown.Both);</span><br><span class="line">    socket.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>- 运行SocketClient进行模拟连接，并发送接收数据。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">byte[] receivedBytes = new byte[1024];</span><br><span class="line">IPHostEntry ipHost = Dns.Resolve(&quot;127.0.0.1&quot;);</span><br><span class="line">IPAddress ipAddress = ipHost.AddressList[0];</span><br><span class="line">IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 2112);</span><br><span class="line">Console.WriteLine(&quot;Starting:Creating Socket object&quot;);</span><br><span class="line"></span><br><span class="line">Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);</span><br><span class="line"></span><br><span class="line">sender.Connect(ipEndPoint);</span><br><span class="line">Console.WriteLine(&quot;Successfully connected to &#123;0&#125;&quot;, sender.RemoteEndPoint);</span><br><span class="line"></span><br><span class="line">string sendingMessage = &quot;Hello World Socket Test&quot;;</span><br><span class="line">Console.WriteLine(&quot;Creating Message;Hello World Socket Test&quot;);</span><br><span class="line"></span><br><span class="line">byte[] forwardMessage = Encoding.ASCII.GetBytes(sendingMessage + &quot;[FINAL]&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sender.Send(forwardMessage);</span><br><span class="line"></span><br><span class="line">int totalBytesReceived = sender.Receive(receivedBytes);</span><br><span class="line">Console.WriteLine(&quot;Message provided from server: &#123;0&#125;&quot;, Encoding.ASCII.GetString(receivedBytes, 0, totalBytesReceived));</span><br><span class="line"></span><br><span class="line">sender.Shutdown(SocketShutdown.Both);</span><br><span class="line">sender.Close();</span><br><span class="line">Thread.Sleep(1000);</span><br><span class="line"></span><br><span class="line">Console.ReadLine();</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>后记</p>
-<p>  H5支持WebSocket，预计将来在通讯领域应用会更加广泛，示例程序见博客：<a href="http://www.cnblogs.com/bmbh/p/5174884.html" target="_blank" rel="noopener">C# WebSocket模拟发送接收</a></p>
-</li>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-Demo/tree/master/SocketDemo" target="_blank" rel="noopener">BMBH/.NET-Demo</a></p>
-</li>
+<li>运行SocketClient进行模拟连接，并发送接收数据。</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">byte[] receivedBytes = new byte[1024];</span><br><span class="line">IPHostEntry ipHost = Dns.Resolve(&quot;127.0.0.1&quot;);</span><br><span class="line">IPAddress ipAddress = ipHost.AddressList[0];</span><br><span class="line">IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 2112);</span><br><span class="line">Console.WriteLine(&quot;Starting:Creating Socket object&quot;);</span><br><span class="line"></span><br><span class="line">Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);</span><br><span class="line"></span><br><span class="line">sender.Connect(ipEndPoint);</span><br><span class="line">Console.WriteLine(&quot;Successfully connected to &#123;0&#125;&quot;, sender.RemoteEndPoint);</span><br><span class="line"></span><br><span class="line">string sendingMessage = &quot;Hello World Socket Test&quot;;</span><br><span class="line">Console.WriteLine(&quot;Creating Message;Hello World Socket Test&quot;);</span><br><span class="line"></span><br><span class="line">byte[] forwardMessage = Encoding.ASCII.GetBytes(sendingMessage + &quot;[FINAL]&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sender.Send(forwardMessage);</span><br><span class="line"></span><br><span class="line">int totalBytesReceived = sender.Receive(receivedBytes);</span><br><span class="line">Console.WriteLine(&quot;Message provided from server: &#123;0&#125;&quot;, Encoding.ASCII.GetString(receivedBytes, 0, totalBytesReceived));</span><br><span class="line"></span><br><span class="line">sender.Shutdown(SocketShutdown.Both);</span><br><span class="line">sender.Close();</span><br><span class="line">Thread.Sleep(1000);</span><br><span class="line"></span><br><span class="line">Console.ReadLine();</span><br></pre></td></tr></table></figure>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><pre><code>H5支持WebSocket，预计将来在通讯领域应用会更加广泛，示例程序见博客：[C# WebSocket模拟发送接收](http://www.cnblogs.com/bmbh/p/5174884.html)
+</code></pre><h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-Demo/tree/master/SocketDemo" target="_blank" rel="noopener">BMBH/.NET-Demo</a></p>
 
           
         
@@ -1741,262 +1879,56 @@
       
         
           
-            <h3 id="C-源码计数器"><a href="#C-源码计数器" class="headerlink" title="C# 源码计数器"></a>C# 源码计数器</h3><ul>
-<li><p>设计背景</p>
-<p>  编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。</p>
-</li>
-<li><p>设计思路</p>
-<p>  主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析</p>
-</li>
-<li><p>相关技术</p>
-<ul>
+            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>编程工作中，有些文档需要填写代码量，例如申请软件著作权。查阅相关资料之后，编写了这个小程序。
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>主要思路为分析项目文件，根据项目文件查找代码文件，然后遍历代码文件进行分析
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
 <li>抽象类</li>
 <li>文件操作</li>
 <li>字符串解析</li>
 </ul>
-</li>
-<li><p>项目结构</p>
+<h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><ul>
+<li><p>抽象类</p>
 <ul>
-<li>抽象类<ul>
-<li>FileAnalyser 文件分析类，负责校验文件，并定义分析文件方法</li>
-<li>ProjectDocument 项目工程类，负责定义项目文件属性及方法</li>
-</ul>
+<li><p>FileAnalyser 文件分析类</p>
+<p>负责校验文件，并定义分析文件方法</p>
 </li>
-<li>实体类<ul>
-<li>FileEntity 文件实体类，负责存储代码文件信息</li>
-<li>ProjectFileEntity 项目工程实体类，负责存储项目文件信息</li>
-<li>LineEntity 代码行实体类，负责存储代码行信息</li>
-</ul>
-</li>
-<li>集合类<ul>
-<li>FileCollection 文件实体集合，负责文件集合统计数据</li>
-</ul>
-</li>
-<li>功能类<ul>
-<li>CSProjectDocument C#项目工程类，继承ProjectDocument类，负责分析C#项目工程文件</li>
-<li>CSFileAnalyser cs文件分析类，继承FileAnalyser，负责分析cs文件</li>
-</ul>
+<li><p>ProjectDocument 项目工程类</p>
+<p>负责定义项目文件属性及方法</p>
 </li>
 </ul>
 </li>
-<li><p>代码示例</p>
-<p>  调用方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectDocument mDocument = ProjectDocument.Create(this.txtFileName.Text);</span><br><span class="line">if (mDocument == null)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;Analyse for &quot; + this.txtFileName.Text + &quot; error !&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line">mDocument.ClearResults();</span><br><span class="line">mDocument.AnalyseAllFile();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>GitHub地址</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/CodeCalc" target="_blank" rel="noopener">BMBH/.NET-App</a></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/Hexo初体验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="北冥冰皇">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/ico.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北冥冰皇">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/10/Hexo初体验/" itemprop="url">Hexo初体验</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T00:00:00+08:00">
-                2018-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Hexo本地安装"><a href="#Hexo本地安装" class="headerlink" title="Hexo本地安装"></a>Hexo本地安装</h3><ul>
-<li>Node.js安装</li>
-<li>Hexo npm安装如下</li>
-</ul>
-<blockquote>
-<ol>
-<li>npm install hexo -g //安装</li>
-<li>hexo init //初始化</li>
-<li>npm install //安装组件</li>
-<li>hexo g //首次体验</li>
-<li>hexo s //本地启动</li>
-</ol>
-</blockquote>
+<li><p>实体类</p>
 <ul>
-<li>GitHub Pages新建</li>
-<li>Git安装并设置SSH</li>
-<li>Hexo _config.yml修改git</li>
+<li><p>FileEntity 文件实体类</p>
+<p>负责存储代码文件信息</p>
+</li>
+<li><p>ProjectFileEntity 项目工程实体类</p>
+<p>负责存储项目文件信息</p>
+</li>
+<li><p>LineEntity 代码行实体类</p>
+<p>负责存储代码行信息</p>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type: git</span><br><span class="line">repo: https://github.com/username/username.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
-<p><strong>注：yml文件语言要求严格，注意冒号之后的半角英文空格</strong></p>
-<ul>
-<li>Hexo 新建博客</li>
+</li>
+<li><p>集合类</p>
+</li>
 </ul>
-<blockquote>
-<p>hexo new post “博客名”</p>
-</blockquote>
-<ul>
-<li>Hexo 生成部署</li>
+<pre><code>- FileCollection 文件实体集合
+
+负责文件集合统计数据
+</code></pre><ul>
+<li>功能类</li>
 </ul>
-<blockquote>
-<ol>
-<li>npm install hexo-deployer-git –save //安装扩展</li>
-<li>hexo d -g //生成部署</li>
-</ol>
-</blockquote>
-<h3 id="Hexo多机同步"><a href="#Hexo多机同步" class="headerlink" title="Hexo多机同步"></a>Hexo多机同步</h3><p>Hexo分支简单的说就是把Hexo环境push到Hexo分支</p>
-<blockquote>
-<ol>
-<li>在Hexo仓库下创建一个hexo分支，设置为默认分支</li>
-<li>克隆仓库的hexo分支</li>
-<li>将Hexo本地的原始文件全部拷贝进克隆仓库提交</li>
-<li>其他PC克隆仓库的hexo分支，npm install安装Hexo组件</li>
-</ol>
-</blockquote>
-<p><strong>注：themes目录下的.git文件夹需要删除，否则不能上传相关主题</strong></p>
-<h3 id="Hexo更换Next主题"><a href="#Hexo更换Next主题" class="headerlink" title="Hexo更换Next主题"></a>Hexo更换Next主题</h3><ul>
-<li>Git Bash 将Next主题克隆到themes文件夹</li>
-<li>_config.yml 修改 theme: next</li>
-</ul>
-<h3 id="Hexo-Next主题配置"><a href="#Hexo-Next主题配置" class="headerlink" title="Hexo Next主题配置"></a>Hexo Next主题配置</h3><ul>
-<li>主题风格</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Schemes</span><br><span class="line">#scheme: Muse</span><br><span class="line">scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">#scheme: Gemini</span><br></pre></td></tr></table></figure>
-<ul>
-<li>菜单设置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home</span><br><span class="line">  #about: /about/ || user</span><br><span class="line">  tags: /tags/ || tags</span><br><span class="line">  categories: /categories/ || th</span><br><span class="line">  archives: /archives/ || archive</span><br><span class="line">  #schedule: /schedule/ || calendar</span><br><span class="line">  #sitemap: /sitemap.xml || sitemap</span><br><span class="line">  #commonweal: /404/ || heartbeat</span><br></pre></td></tr></table></figure>
-<ul>
-<li>添加标签页面</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-<p>index.md</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2018-05-09 16:41:16</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<ul>
-<li>添加分类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
-<p>index.md</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: categories</span><br><span class="line">date: 2018-05-09 16:42:53</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<pre><code>- CSProjectDocument C#项目工程类
+
+继承ProjectDocument类，负责分析C#项目工程文件
+
+- CSFileAnalyser cs文件分析类
+
+继承FileAnalyser，负责分析cs文件
+</code></pre><h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><pre><code>调用方法
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectDocument mDocument = ProjectDocument.Create(this.txtFileName.Text);</span><br><span class="line">if (mDocument == null)</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;Analyse for &quot; + this.txtFileName.Text + &quot; error !&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line">mDocument.ClearResults();</span><br><span class="line">mDocument.AnalyseAllFile();</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub地址"><a href="#GitHub地址" class="headerlink" title="GitHub地址"></a>GitHub地址</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/CodeCalc" target="_blank" rel="noopener">BMBH/.NET-App</a></p>
 
           
         
@@ -2035,6 +1967,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2082,7 +2018,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

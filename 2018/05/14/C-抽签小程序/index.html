@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="C# 抽签小程序 设计背景   设置一个Excel名单表，对名单进行随机抽取。  设计思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   代码示例   - 导入名单 12">
+<meta name="description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
 <meta name="keywords" content="C#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C# 抽签小程序">
 <meta property="og:url" content="http://yoursite.com/2018/05/14/C-抽签小程序/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="C# 抽签小程序 设计背景   设置一个Excel名单表，对名单进行随机抽取。  设计思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   代码示例   - 导入名单 12">
+<meta property="og:description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-16T05:46:41.163Z">
+<meta property="og:updated_time" content="2018-05-23T07:46:20.646Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C# 抽签小程序">
-<meta name="twitter:description" content="C# 抽签小程序 设计背景   设置一个Excel名单表，对名单进行随机抽取。  设计思路   使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果  相关技术  随机数 Excel读取/导出 XML文档读写   相关类库  C1.C1Excel Excel操作相关   功能  读取Excel名单 名单随机抽签 评分功能 Excel导出功能   代码示例   - 导入名单 12">
+<meta name="twitter:description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
 
 
 
@@ -352,47 +352,33 @@
       
 
       
-        <h3 id="C-抽签小程序"><a href="#C-抽签小程序" class="headerlink" title="C# 抽签小程序"></a>C# 抽签小程序</h3><ul>
-<li><p>设计背景</p>
-<p>  设置一个Excel名单表，对名单进行随机抽取。</p>
-</li>
-<li><p>设计思路</p>
-<p>  使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果</p>
-</li>
-<li><p>相关技术</p>
-<ul>
+        <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>设置一个Excel名单表，对名单进行随机抽取。
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
 <li>随机数</li>
 <li>Excel读取/导出</li>
 <li>XML文档读写</li>
 </ul>
-</li>
-<li><p>相关类库</p>
-<ul>
-<li>C1.C1Excel Excel操作相关</li>
-</ul>
-</li>
-<li><p>功能</p>
-<ul>
+<h4 id="相关类库"><a href="#相关类库" class="headerlink" title="相关类库"></a>相关类库</h4><p>C1.C1Excel Excel操作相关</p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ul>
 <li>读取Excel名单</li>
 <li>名单随机抽签</li>
 <li>评分功能</li>
 <li>Excel导出功能</li>
 </ul>
-</li>
-<li><p>代码示例</p>
-</li>
+<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><ul>
+<li>导入名单</li>
 </ul>
-<pre><code>- 导入名单
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())</span><br><span class="line">&#123;</span><br><span class="line">    dialog.InitialDirectory = Application.StartupPath;</span><br><span class="line">    dialog.Filter = &quot;Excel文件(*.xls)|*.xls&quot;;</span><br><span class="line">    dialog.CheckFileExists = true;</span><br><span class="line">    if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        this.txtList.Text = dialog.FileName;</span><br><span class="line">        this.dt = ImportExcel(dialog.FileName, false, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>- 随机抽签
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Random rd = new Random();</span><br><span class="line">this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();</span><br></pre></td></tr></table></figure>
-<pre><code>- 评分导出
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">string apppath = Application.ExecutablePath;</span><br><span class="line">apppath = apppath.Substring(0, apppath.LastIndexOf(&quot;\\&quot;));</span><br><span class="line">if (File.Exists(apppath + &quot;\\Evaluation.xml&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument xmlDoc = new XmlDocument();</span><br><span class="line">    xmlDoc.Load(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">    XmlNodeList nodeList = xmlDoc.SelectNodes(&quot;//Evaluation//Evaluation&quot;);</span><br><span class="line"></span><br><span class="line">    DataTable dt = new DataTable();</span><br><span class="line">    dt.Columns.Add(&quot;姓名&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;评分&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;时间&quot;);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; nodeList.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        DataRow dr = dt.NewRow();</span><br><span class="line">        XmlElement xe = (XmlElement)nodeList[i];</span><br><span class="line">        dr[0] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Name&quot;)[i]).InnerText;</span><br><span class="line">        dr[1] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Points&quot;)[i]).InnerText;</span><br><span class="line">        dr[2] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Time&quot;)[i]).InnerText;</span><br><span class="line">        dt.Rows.Add(dr);</span><br><span class="line">    &#125;</span><br><span class="line">    ExportTo(&quot;Evaluation&quot;, &quot;Evaluation&quot;, dt);</span><br><span class="line">    MessageBox.Show(&quot;导出评分表将删除评分记录，请自行保存！&quot;);</span><br><span class="line">    File.Delete(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;无评分记录！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())</span><br><span class="line">&#123;</span><br><span class="line">    dialog.InitialDirectory = Application.StartupPath;</span><br><span class="line">    dialog.Filter = &quot;Excel文件(*.xls)|*.xls&quot;;</span><br><span class="line">    dialog.CheckFileExists = true;</span><br><span class="line">    if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        this.txtList.Text = dialog.FileName;</span><br><span class="line">        this.dt = ImportExcel(dialog.FileName, false, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/Draw" target="_blank" rel="noopener">.NET-App/Draw/</a></p>
-</li>
+<li>随机抽签</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Random rd = new Random();</span><br><span class="line">this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>评分导出</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">string apppath = Application.ExecutablePath;</span><br><span class="line">apppath = apppath.Substring(0, apppath.LastIndexOf(&quot;\\&quot;));</span><br><span class="line">if (File.Exists(apppath + &quot;\\Evaluation.xml&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument xmlDoc = new XmlDocument();</span><br><span class="line">    xmlDoc.Load(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">    XmlNodeList nodeList = xmlDoc.SelectNodes(&quot;//Evaluation//Evaluation&quot;);</span><br><span class="line"></span><br><span class="line">    DataTable dt = new DataTable();</span><br><span class="line">    dt.Columns.Add(&quot;姓名&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;评分&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;时间&quot;);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; nodeList.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        DataRow dr = dt.NewRow();</span><br><span class="line">        XmlElement xe = (XmlElement)nodeList[i];</span><br><span class="line">        dr[0] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Name&quot;)[i]).InnerText;</span><br><span class="line">        dr[1] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Points&quot;)[i]).InnerText;</span><br><span class="line">        dr[2] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Time&quot;)[i]).InnerText;</span><br><span class="line">        dt.Rows.Add(dr);</span><br><span class="line">    &#125;</span><br><span class="line">    ExportTo(&quot;Evaluation&quot;, &quot;Evaluation&quot;, dt);</span><br><span class="line">    MessageBox.Show(&quot;导出评分表将删除评分记录，请自行保存！&quot;);</span><br><span class="line">    File.Delete(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;无评分记录！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/Draw" target="_blank" rel="noopener">.NET-App/Draw/</a></p>
 
       
     </div>
@@ -545,7 +531,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -616,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-抽签小程序"><span class="nav-number">1.</span> <span class="nav-text">C# 抽签小程序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计背景"><span class="nav-number">1.</span> <span class="nav-text">设计背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计思路"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关技术"><span class="nav-number">3.</span> <span class="nav-text">相关技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关类库"><span class="nav-number">4.</span> <span class="nav-text">相关类库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能"><span class="nav-number">5.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码示例"><span class="nav-number">6.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GitHub"><span class="nav-number">7.</span> <span class="nav-text">GitHub</span></a></li></ol></div>
             
 
           </div>

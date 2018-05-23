@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="C# 妈妈再打我一下生成器 设计背景   网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片  设计思路   GDI+ 绘图技术，在图片基础上添加文字  相关技术   GDI+  代码示例   123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphic">
+<meta name="description" content="设计背景网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片 设计思路GDI+ 绘图技术，在图片基础上添加文字 相关技术GDI+ 代码示例123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphics.FromImage(imag);   Font fon">
 <meta name="keywords" content="C#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C# 妈妈再打我一下生成器">
 <meta property="og:url" content="http://yoursite.com/2018/05/16/C-妈妈再打我一下生成器/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="C# 妈妈再打我一下生成器 设计背景   网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片  设计思路   GDI+ 绘图技术，在图片基础上添加文字  相关技术   GDI+  代码示例   123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphic">
+<meta property="og:description" content="设计背景网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片 设计思路GDI+ 绘图技术，在图片基础上添加文字 相关技术GDI+ 代码示例123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphics.FromImage(imag);   Font fon">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-16T05:53:15.180Z">
+<meta property="og:updated_time" content="2018-05-23T07:45:54.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C# 妈妈再打我一下生成器">
-<meta name="twitter:description" content="C# 妈妈再打我一下生成器 设计背景   网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片  设计思路   GDI+ 绘图技术，在图片基础上添加文字  相关技术   GDI+  代码示例   123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphic">
+<meta name="twitter:description" content="设计背景网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片 设计思路GDI+ 绘图技术，在图片基础上添加文字 相关技术GDI+ 代码示例123456789101112Image imag = pictureBox1.Image;   Graphics g = Graphics.FromImage(imag);   Font fon">
 
 
 
@@ -352,25 +352,11 @@
       
 
       
-        <h3 id="C-妈妈再打我一下生成器"><a href="#C-妈妈再打我一下生成器" class="headerlink" title="C# 妈妈再打我一下生成器"></a>C# 妈妈再打我一下生成器</h3><ul>
-<li><p>设计背景</p>
-<p>  网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片</p>
-</li>
-<li><p>设计思路</p>
-<p>  GDI+ 绘图技术，在图片基础上添加文字</p>
-</li>
-<li><p>相关技术</p>
-<p>  GDI+</p>
-</li>
-<li><p>代码示例</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Image imag = pictureBox1.Image;</span><br><span class="line">   Graphics g = Graphics.FromImage(imag);</span><br><span class="line">   Font font = new System.Drawing.Font(&quot;宋体&quot;, 12, (System.Drawing.FontStyle.Bold));</span><br><span class="line">   LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, imag.Width, imag.Height), Color.Red, Color.Red, 1.2f, true);</span><br><span class="line">   g.DrawString(this.txtUp.Text, font, brush, 50, 150);</span><br><span class="line">   g.DrawString(this.txtMiddle.Text, font, brush, 50, 320);</span><br><span class="line">   g.DrawString(this.txtDown.Text, font, brush, 50, 500);</span><br><span class="line">   g.Dispose();</span><br><span class="line"></span><br><span class="line">   pictureBox1.Image = imag;</span><br><span class="line"></span><br><span class="line">   Clipboard.SetDataObject(pictureBox1.Image);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>GitHub</p>
-<p>  <a href="https://github.com/BMBH/.NET-App/tree/master/PicGenerater" target="_blank" rel="noopener">.NET-App/PicGenerater/</a></p>
-</li>
-</ul>
+        <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片
+</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>GDI+ 绘图技术，在图片基础上添加文字
+</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><pre><code>GDI+
+</code></pre><h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Image imag = pictureBox1.Image;</span><br><span class="line">   Graphics g = Graphics.FromImage(imag);</span><br><span class="line">   Font font = new System.Drawing.Font(&quot;宋体&quot;, 12, (System.Drawing.FontStyle.Bold));</span><br><span class="line">   LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, imag.Width, imag.Height), Color.Red, Color.Red, 1.2f, true);</span><br><span class="line">   g.DrawString(this.txtUp.Text, font, brush, 50, 150);</span><br><span class="line">   g.DrawString(this.txtMiddle.Text, font, brush, 50, 320);</span><br><span class="line">   g.DrawString(this.txtDown.Text, font, brush, 50, 500);</span><br><span class="line">   g.Dispose();</span><br><span class="line"></span><br><span class="line">   pictureBox1.Image = imag;</span><br><span class="line"></span><br><span class="line">   Clipboard.SetDataObject(pictureBox1.Image);</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/PicGenerater" target="_blank" rel="noopener">.NET-App/PicGenerater/</a></p>
 
       
     </div>
@@ -440,8 +426,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/23/Java多线程创建方式初探/" rel="prev" title="Java多线程创建方式初探">
-                Java多线程创建方式初探 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/23/Java多线程初级汇总/" rel="prev" title="Java多线程初级汇总">
+                Java多线程初级汇总 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -523,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -594,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-妈妈再打我一下生成器"><span class="nav-number">1.</span> <span class="nav-text">C# 妈妈再打我一下生成器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计背景"><span class="nav-number">1.</span> <span class="nav-text">设计背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计思路"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关技术"><span class="nav-number">3.</span> <span class="nav-text">相关技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码示例"><span class="nav-number">4.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GitHub"><span class="nav-number">5.</span> <span class="nav-text">GitHub</span></a></li></ol></div>
             
 
           </div>
