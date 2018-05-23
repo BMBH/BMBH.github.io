@@ -5,21 +5,19 @@ tags: C#
 categories: .NET
 ---
 
-### C# 妈妈再打我一下生成器
-
-- 设计背景
+#### 设计背景
 
 	网上很火的一个“妈妈再打我一下”的漫画图片，给了网友无限的想象发挥空间，此小程序可以给图片添加配文的形式，快速生成图片
 
-- 设计思路
+#### 设计思路
 
 	GDI+ 绘图技术，在图片基础上添加文字
 
-- 相关技术
+#### 相关技术
 
 	GDI+
 
-- 代码示例
+#### 代码示例
 
 	```
 	            Image imag = pictureBox1.Image;
@@ -37,6 +35,6 @@ categories: .NET
 	```
 
 	
-- GitHub
+#### GitHub
 
-	[.NET-App/PicGenerater/](https://github.com/BMBH/.NET-App/tree/master/PicGenerater)
+[.NET-App/PicGenerater/](https://github.com/BMBH/.NET-App/tree/master/PicGenerater)

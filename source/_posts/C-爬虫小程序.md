@@ -5,29 +5,46 @@ tags: C#
 categories: .NET
 ---
 
-### C# 爬虫小程序
-
-- 设计思路
+#### 设计思路
 
 	主要基于Http Get请求网页数据，进行分析。涉及递归调用，多线程提高效率，守护线程等。
 
-- 相关技术
+#### 相关技术
 
-	- 抽象类
-	- 多线程 
-	- 队列
-	- Http Get请求
-	- 字符串解析
-- 项目结构
+- 抽象类
+- 多线程 
+- 队列
+- Http Get请求
+- 字符串解析
+	
+#### 项目结构
 
-	- AbsChain 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等
-	- AbsThreadManager 线程管理抽象类，负责定义守望线程，管理多线程
-	- UrlQueue URL队列对象，管理URL队列
-	- Crawl 爬虫对象，负责结合URL队列与职责链，运行爬取功能
-	- HttpGet HTTP GET请求类，负责获取HTML文本
-	- ThreadEntity 爬虫线程，实体对象
+- AbsChain 
 
-- 简单爬虫示例
+ 职责链抽象类，负责定义HTML处理方法，定义递归处理方法等
+
+- AbsThreadManager
+
+线程管理抽象类，负责定义守望线程，管理多线程
+
+- UrlQueue 
+
+URL队列对象，管理URL队列
+
+- Crawl
+
+爬虫对象，负责结合URL队列与职责链，运行爬取功能
+
+- HttpGet
+
+HTTP GET请求类，负责获取HTML文本
+
+- ThreadEntity
+
+ 爬虫线程，实体对象
+
+
+#### 简单爬虫示例
 
 	以下示例为一个简单的获取HTML页面文本示例，可以做到下载文本，并进行分析，可以说是最简单的爬虫
 
@@ -37,9 +54,9 @@ categories: .NET
             string ss = Encoding.UTF8.GetString(response);
 ```
 
-- 项目代码调用示例
+#### 项目代码调用示例
 
-	- 创建继承类，继承职责链，负责具体爬虫方法
+- 创建继承类，继承职责链，负责具体爬虫方法
 
 
 ```
@@ -111,7 +128,7 @@ categories: .NET
     }
 ```
 
-	- 创建线程管理继承类，负责重写新建职责链对象
+- 创建线程管理继承类，负责重写新建职责链对象
 
 ```
     public class ThreadManager:AbsThreadManager
@@ -123,7 +140,7 @@ categories: .NET
     }
 ```
 
-	- 设置URL入口，运行爬虫
+- 设置URL入口，运行爬虫
 
 ```
             try
@@ -141,6 +158,6 @@ categories: .NET
             }
 ```
 
-- GitHub
+#### GitHub
 
-	[.NET-App/NetSpider/](https://github.com/BMBH/.NET-App/tree/master/NetSpider)
+[.NET-App/NetSpider/](https://github.com/BMBH/.NET-App/tree/master/NetSpider)

@@ -5,37 +5,34 @@ tags: C#
 categories: .NET
 ---
 
-### C# 抽签小程序
-
-- 设计背景
+#### 设计背景
 
 	设置一个Excel名单表，对名单进行随机抽取。
 
-- 设计思路
+#### 设计思路
 
 	使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果
 
-- 相关技术
+#### 相关技术
 
-	- 随机数
-	- Excel读取/导出
-	- XML文档读写
+- 随机数
+- Excel读取/导出
+- XML文档读写
 
-- 相关类库
+#### 相关类库
 
-	- C1.C1Excel Excel操作相关
+C1.C1Excel Excel操作相关
 
-- 功能
+#### 功能
 
-	- 读取Excel名单
-	- 名单随机抽签
-	- 评分功能
-	- Excel导出功能
+- 读取Excel名单
+- 名单随机抽签
+- 评分功能
+- Excel导出功能
 
-- 代码示例
+#### 代码示例
 
-
-	- 导入名单
+- 导入名单
 
 ```
             using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())
@@ -51,7 +48,7 @@ categories: .NET
             }
 ```
 
-	- 随机抽签
+- 随机抽签
 
 
 
@@ -60,7 +57,7 @@ categories: .NET
             this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();
 ```
 
-	- 评分导出
+- 评分导出
 
 
 ```
@@ -96,6 +93,6 @@ categories: .NET
             }
 ```
 
-- GitHub
+#### GitHub
 
-	[.NET-App/Draw/](https://github.com/BMBH/.NET-App/tree/master/Draw)
+[.NET-App/Draw/](https://github.com/BMBH/.NET-App/tree/master/Draw)

@@ -5,26 +5,24 @@ tags: Socket
 categories: .NET
 ---
 
-### C# Socket模拟发送接收
-
-- Socket简介
+#### Socket简介
 
 
 	通过TCP/IP与仪器或设备通讯，在C#语言中，我们通常采用Socket。本项目是一个简单的Socket建立服务监听与Socket作为客户端请求的一个示例。
 
-- 项目结构
+#### 项目结构
 
-	- 客户端项目 SocketClient
+- 客户端项目 SocketClient
 
-		主要负责作为Socket客户端发起连接请求，并发送数据
+	主要负责作为Socket客户端发起连接请求，并发送数据
 
-	- 服务端项目 SocketDemo
+- 服务端项目 SocketDemo
 
-		主要负责作为Socket服务端，监听端口并接收连接请求，并返回应答数据
+	主要负责作为Socket服务端，监听端口并接收连接请求，并返回应答数据
 
-- 项目演示
+#### 项目演示
 
-	- 先运行SocketDemo进行服务监听
+- 先运行SocketDemo进行服务监听
 
 ```
             Console.WriteLine("Starting:Creating Socket object");
@@ -59,7 +57,7 @@ categories: .NET
             }
 ```
 
-	- 运行SocketClient进行模拟连接，并发送接收数据。
+- 运行SocketClient进行模拟连接，并发送接收数据。
 
 ```
             byte[] receivedBytes = new byte[1024];
@@ -91,10 +89,10 @@ categories: .NET
             Console.ReadLine();
 ```
 
-- 后记
+#### 后记
 
 	H5支持WebSocket，预计将来在通讯领域应用会更加广泛，示例程序见博客：[C# WebSocket模拟发送接收](http://www.cnblogs.com/bmbh/p/5174884.html)
 
-- GitHub
+#### GitHub
 
-	[BMBH/.NET-Demo](https://github.com/BMBH/.NET-Demo/tree/master/SocketDemo)
+[BMBH/.NET-Demo](https://github.com/BMBH/.NET-Demo/tree/master/SocketDemo)

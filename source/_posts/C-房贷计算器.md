@@ -5,26 +5,24 @@ tags: C#
 categories: .NET
 ---
 
-### C# 房贷计算器
-
-- 设计背景
+#### 设计背景
 
 	百度小程序中的房贷计算器不能满足我个人的需求，故而开发一个.NET小程序。希望后期能用JS重写，发布在网上供大家使用。
 
-- 设计思路
+#### 设计思路
 
 	根据百度公式：等额本息月还款 = [贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]
 
-- 相关技术
+#### 相关技术
 
-	- WinForm 键入事件
-	- 字符串与浮点型数据转换
+- WinForm 键入事件
+- 字符串与浮点型数据转换
 
-- 功能
+#### 功能
 
 	键入相关数据， 进行计算即可
 
-- 代码示例
+#### 代码示例
 
 ```
             //[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]
@@ -60,6 +58,6 @@ categories: .NET
             this.txt.AppendText(string.Format("还款月数：{0} \r\n", monthNum));
 ```
 
-- GitHub
+#### GitHub
 
-	[.NET-App/Loaner/](https://github.com/BMBH/.NET-App/tree/master/Loaner)
+[.NET-App/Loaner/](https://github.com/BMBH/.NET-App/tree/master/Loaner)

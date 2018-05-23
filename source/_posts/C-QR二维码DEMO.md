@@ -5,28 +5,26 @@ tags: C#
 categories: .NET
 ---
 
-### C# QR二维码DEMO
-
-- QR二维码
+#### QR二维码
 
 	二维码的一种
 
-- 相关类库
+#### 相关类库
 
 	ThoughtWorks.QRCode 第三方类库
 
-- DEMO功能
+#### DEMO功能
 
-	- Encode 生成二维码图片
+- Encode 生成二维码图片
 
-		- Encoding 编码
-		- Correction Level 等级
-		- Version 版本
-		- Size 大小
+	- Encoding 编码
+	- Correction Level 等级
+	- Version 版本
+	- Size 大小
 
-	- Decode 解密二维码
+- Decode 解密二维码
 	
-- 生成二维码代码
+#### 生成二维码代码
 
 ```
             ThoughtWorks.QRCode.Codec.QRCodeEncoder qrEncoder = new QRCodeEncoder();
@@ -37,7 +35,7 @@ categories: .NET
             Bitmap image = qrEncoder.Encode(this.txtData.Text, Encoding.Default);
 ```
 
-- 解密二维码代码
+#### 解密二维码代码
 
 ```
             try
@@ -53,7 +51,7 @@ categories: .NET
             }
 ```
 
-- GitHub
+#### GitHub
 
-	[.NET-Demo/QRCode/](https://github.com/BMBH/.NET-Demo/tree/master/QRCode)
+[.NET-Demo/QRCode/](https://github.com/BMBH/.NET-Demo/tree/master/QRCode)
 
