@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="各I/O模型优缺点 BIO通信模型   BIO主要的问题在于每当有一个新的客户端请求接入时，服务端必须创建一个新的线程处理新接入的客户端链路，一个线程只能处理一个客户端连接  线程池I/O编程   假如所有可用线程都被阻塞，后续I/O都将在队列中排队  线程池采用阻塞队列实现，队列积满之后，后续入队列操作将被阻塞，新的客户端请求被拒绝，发生大量连接超时  NIO编程  缓冲区Buffer    每">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java NIO Socket编程实例">
+<meta property="og:url" content="http://yoursite.com/2018/05/29/Java-NIO-Socket编程实例/index.html">
+<meta property="og:site_name" content="北冥冰皇">
+<meta property="og:description" content="各I/O模型优缺点 BIO通信模型   BIO主要的问题在于每当有一个新的客户端请求接入时，服务端必须创建一个新的线程处理新接入的客户端链路，一个线程只能处理一个客户端连接  线程池I/O编程   假如所有可用线程都被阻塞，后续I/O都将在队列中排队  线程池采用阻塞队列实现，队列积满之后，后续入队列操作将被阻塞，新的客户端请求被拒绝，发生大量连接超时  NIO编程  缓冲区Buffer    每">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-29T09:43:28.491Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java NIO Socket编程实例">
+<meta name="twitter:description" content="各I/O模型优缺点 BIO通信模型   BIO主要的问题在于每当有一个新的客户端请求接入时，服务端必须创建一个新的线程处理新接入的客户端链路，一个线程只能处理一个客户端连接  线程池I/O编程   假如所有可用线程都被阻塞，后续I/O都将在队列中排队  线程池采用阻塞队列实现，队列积满之后，后续入队列操作将被阻塞，新的客户端请求被拒绝，发生大量连接超时  NIO编程  缓冲区Buffer    每">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/29/Java-NIO-Socket编程实例/"/>
+
+
+
+
+
+  <title>Java NIO Socket编程实例 | 北冥冰皇</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0e6aaa469c26ed0a388fa2612cd183af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">北冥冰皇</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/29/Java-NIO-Socket编程实例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="北冥冰皇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ico.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥冰皇">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java NIO Socket编程实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-29T17:42:22+08:00">
+                2018-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="各I-O模型优缺点"><a href="#各I-O模型优缺点" class="headerlink" title="各I/O模型优缺点"></a>各I/O模型优缺点</h5><ul>
+<li><p>BIO通信模型</p>
+<p>  BIO主要的问题在于每当有一个新的客户端请求接入时，服务端必须创建一个新的线程处理新接入的客户端链路，一个线程只能处理一个客户端连接</p>
+</li>
+<li><p>线程池I/O编程</p>
+<p>  假如所有可用线程都被阻塞，后续I/O都将在队列中排队<br>  线程池采用阻塞队列实现，队列积满之后，后续入队列操作将被阻塞，新的客户端请求被拒绝，发生大量连接超时</p>
+</li>
+<li><p>NIO编程</p>
+<ul>
+<li><p>缓冲区Buffer </p>
+<p>  每一种Java基本类型都有对一种缓冲区<br>  大多数标准I/O使用ByteBuffer</p>
+</li>
+<li><p>通道Channel</p>
+<p>  Channel分为两大类：用于网络读写的SelectableChannel和用于文件操作的FileChannel</p>
+</li>
+<li><p>多路复用器Selector</p>
+<p>  多路复用器提供选择已经就绪的任务的能力</p>
+</li>
+</ul>
+</li>
+<li><p>NIO2.0 AIO</p>
+<p>  异步套接字通道不需要通过多路复用器(Selector)对注册的通道进行轮询操作即可实现异步读写</p>
+</li>
+</ul>
+<h5 id="NIO实例分析"><a href="#NIO实例分析" class="headerlink" title="NIO实例分析"></a>NIO实例分析</h5><ul>
+<li><p>NIO服务端序列</p>
+<ul>
+<li>步骤一：打开ServerSocketChannel，用于监听客户端的连接</li>
+<li>步骤二：绑定监听端口，设置连接为非阻塞模式</li>
+<li>步骤三：创建Reactor线程，创建多路复用器并启动线程</li>
+<li>步骤四：将ServerSocketChannel注册到Reactor线程的多路复用器Selector上，监听ACCEPT事件</li>
+<li>步骤五：多路复用器在线程run方法的无限循环体内轮休准备就绪的Key</li>
+<li>步骤六：多路复用器监听到有新的客户端接入，处理新的计入请求，完成TCP三次握手，建立物理链路</li>
+<li>步骤七：设置客户端链路为非阻塞模式</li>
+<li>步骤八：将新接入的客户端连接注册到Reactor线程的多路复用器上，监听读操作</li>
+<li>步骤九：异步读取客户端请求消息到缓冲区</li>
+<li>步骤十：对ByteBuffer进行编解码，如果有半包消息指针reset，继续读取后续的报文，将解码成功的消息封装成Task，投递到业务线程池中</li>
+<li>步骤十一：将POJO对象encode成ByteBuffer，调用SocketChannel的异步write接口，将消息异步发送给客户端</li>
+</ul>
+</li>
+<li><p>NIO客户端序列</p>
+<ul>
+<li>步骤一：打开SocketChannel，绑定客户端本机地址</li>
+<li>步骤二：设置SocketChannel为非阻塞模式，设置客户端连接的TCP参数</li>
+<li>步骤三：异步连接服务器</li>
+<li>步骤四：判断是否连接成功，如果连接成功，则直接注册读状态位到多路复用器中，如果当前没有连接成功</li>
+<li>步骤五：向Reactor线程的多路复用器注册OP_CONNECT状态位，监听服务端的TCP ACK应答</li>
+<li>步骤六：创建Reactor线程，创建多路复用器并启动线程</li>
+<li>步骤七：多路复用器在线程run方法的无限循环体内轮询准备就绪的Key</li>
+<li>步骤八：接收connect事件进行处理</li>
+<li>步骤九：判断连接结果，如果连接成功，注册读事件到多路复用器</li>
+<li>步骤十：注册读事件到多路复用器</li>
+<li>步骤十一：异步读客户端请求消息到缓冲区</li>
+<li>步骤十二：对ByteBuffer进行编解码，如果有半包消息接收缓冲区Reset，继续读取后续的报文，将解码成功的消息封装成Task，投递到业务线程池中，进行业务逻辑编排。</li>
+<li>步骤十三：将POJO对象encode成ByteBuffer，调用SocketChannel的异步write接口，将消息异步发送给客户端</li>
+</ul>
+</li>
+</ul>
+<h5 id="NIO实例代码"><a href="#NIO实例代码" class="headerlink" title="NIO实例代码"></a>NIO实例代码</h5><ul>
+<li>服务端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @param args</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public static void main(String[] args) throws IOException&#123;</span><br><span class="line">    int port = 8080;</span><br><span class="line">    if(args != null &amp;&amp;args.length &gt;0)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            port = Integer.valueOf(args[0]);</span><br><span class="line">        &#125;catch (NumberFormatException ex)&#123;</span><br><span class="line">            //采用默认值</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    MultiplexerTimeServer timeServer = new MultiplexerTimeServer(port);</span><br><span class="line">    new Thread(timeServer,&quot;NIO-MultiplexerTimeServer-001&quot;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.SelectionKey;</span><br><span class="line">import java.nio.channels.Selector;</span><br><span class="line">import java.nio.channels.ServerSocketChannel;</span><br><span class="line">import java.nio.channels.SocketChannel;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">public class MultiplexerTimeServer implements Runnable &#123;</span><br><span class="line"></span><br><span class="line">    private Selector selector;</span><br><span class="line">    private ServerSocketChannel serverChannel;</span><br><span class="line">    private volatile  boolean stop;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 初始化多路复用器，绑定监听端口</span><br><span class="line">     * @param port</span><br><span class="line">     */</span><br><span class="line">    public MultiplexerTimeServer(int port)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            selector = Selector.open();//创建多路复用器</span><br><span class="line">            serverChannel = ServerSocketChannel.open();</span><br><span class="line">            serverChannel.configureBlocking(false);//设置为异步非阻塞模式</span><br><span class="line">            serverChannel.socket().bind(new InetSocketAddress(port),1024);//绑定端口</span><br><span class="line">            serverChannel.register(selector,SelectionKey.OP_ACCEPT);//注册到Selector</span><br><span class="line">            System.out.println(&quot;The time server is start in port:&quot; + port);</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void stop()&#123;</span><br><span class="line">        this.stop = true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        while(!stop)&#123;</span><br><span class="line">            try&#123;</span><br><span class="line">               selector.select(1000);//selector每隔1s都被唤醒一次</span><br><span class="line">               Set&lt;SelectionKey&gt; selectedKeys = selector.selectedKeys();</span><br><span class="line">               Iterator&lt;SelectionKey&gt; it = selectedKeys.iterator();</span><br><span class="line">               SelectionKey key = null;</span><br><span class="line">               while(it.hasNext())&#123;</span><br><span class="line">                   key = it.next();</span><br><span class="line">                   it.remove();</span><br><span class="line">                   try&#123;</span><br><span class="line">                       handleInput(key);</span><br><span class="line">                   &#125;catch (Exception e)&#123;</span><br><span class="line">                       if(key !=null)&#123;</span><br><span class="line">                           key.cancel();</span><br><span class="line">                           if(key.channel() !=null)</span><br><span class="line">                               key.channel().close();</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;catch (Throwable t)&#123;</span><br><span class="line">                t.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //多路复用器关闭后，所有注册在上面的Channel和Pipe等资源都会被自动去注册并关闭，所以不需要重复释放资源</span><br><span class="line">        if(selector != null)&#123;</span><br><span class="line">            try&#123;</span><br><span class="line">                selector.close();</span><br><span class="line">            &#125;catch (IOException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void handleInput(SelectionKey key) throws IOException&#123;</span><br><span class="line">        if(key.isValid())&#123;</span><br><span class="line">            //处理新接入的请求消息</span><br><span class="line">            if(key.isAcceptable())&#123;</span><br><span class="line">                //Accept the new connection</span><br><span class="line">                ServerSocketChannel ssc = (ServerSocketChannel)key.channel();</span><br><span class="line">                SocketChannel sc = ssc.accept();//接收客户端的连接请求，完成TCP三次握手</span><br><span class="line">                sc.configureBlocking(false);//设置为异步非阻塞</span><br><span class="line">                //Add the new connection to the selector</span><br><span class="line">                sc.register(selector,SelectionKey.OP_READ);</span><br><span class="line">            &#125;</span><br><span class="line">            if(key.isReadable())&#123;</span><br><span class="line">                //Read the data</span><br><span class="line">                SocketChannel sc = (SocketChannel)key.channel();</span><br><span class="line">                ByteBuffer readBuffer = ByteBuffer.allocate(1024);</span><br><span class="line">                int readBytes = sc.read(readBuffer);</span><br><span class="line">                if(readBytes &gt; 0 )&#123;</span><br><span class="line">                    readBuffer.flip();//将缓冲区当前的limit设置为position,position设置为0</span><br><span class="line">                    byte[] bytes = new byte[readBuffer.remaining()];</span><br><span class="line">                    readBuffer.get(bytes);</span><br><span class="line">                    String body = new String(bytes,&quot;UTF-8&quot;);</span><br><span class="line">                    System.out.println(&quot;The time server receive order :&quot; + body);</span><br><span class="line">                    String currentTime = &quot;QUERY TIME ORDER&quot;.equalsIgnoreCase(body)?new java.util.Date(System.currentTimeMillis()).toString():&quot;BAD ORDER&quot;;</span><br><span class="line">                    doWrite(sc,currentTime);</span><br><span class="line">                &#125;else if(readBytes &lt;0)&#123;</span><br><span class="line">                    //对端链路关闭</span><br><span class="line">                    key.cancel();</span><br><span class="line">                    sc.close();</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    //读到0字节，忽略</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将应答消息异步发送给客户端</span><br><span class="line">     * @param channel</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void doWrite(SocketChannel channel,String response) throws IOException&#123;</span><br><span class="line">        if(response !=null &amp;&amp; response.trim().length() &gt;0)&#123;</span><br><span class="line">            byte[] bytes = response.getBytes();</span><br><span class="line">            ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);</span><br><span class="line">            writeBuffer.put(bytes);</span><br><span class="line">            writeBuffer.flip();</span><br><span class="line">            channel.write(writeBuffer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客户端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @param args</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public static void main(String[] args) throws IOException&#123;</span><br><span class="line">    int port = 8080;</span><br><span class="line">    if(args != null &amp;&amp;args.length &gt;0)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            port = Integer.valueOf(args[0]);</span><br><span class="line">        &#125;catch (NumberFormatException ex)&#123;</span><br><span class="line">            //采用默认值</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    new Thread(new TimeClientHandle(&quot;127.0.0.1&quot;,port),&quot;TimeClient-001&quot;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.SelectionKey;</span><br><span class="line">import java.nio.channels.Selector;</span><br><span class="line">import java.nio.channels.SocketChannel;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">public class TimeClientHandle implements Runnable&#123;</span><br><span class="line">    private String host;</span><br><span class="line">    private int port;</span><br><span class="line">    private Selector selector;</span><br><span class="line">    private SocketChannel socketChannel;</span><br><span class="line">    private volatile boolean stop;</span><br><span class="line"></span><br><span class="line">    public TimeClientHandle(String host,int port)&#123;</span><br><span class="line">        this.host = host == null?&quot;127.0.0.1&quot;:host;</span><br><span class="line">        this.port = port;</span><br><span class="line">        try&#123;</span><br><span class="line">            selector = Selector.open();</span><br><span class="line">            socketChannel = SocketChannel.open();</span><br><span class="line">            socketChannel.configureBlocking(false);</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            doConnect();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">        while(!stop)&#123;</span><br><span class="line">            try&#123;</span><br><span class="line">                selector.select(1000);</span><br><span class="line">                Set&lt;SelectionKey&gt; selectionKeys = selector.selectedKeys();</span><br><span class="line">                Iterator&lt;SelectionKey&gt; it = selectionKeys.iterator();</span><br><span class="line">                SelectionKey key = null;</span><br><span class="line">                while(it.hasNext())&#123;</span><br><span class="line">                    key = it.next();</span><br><span class="line">                    it.remove();</span><br><span class="line">                    try&#123;</span><br><span class="line">                        handleInput(key);</span><br><span class="line">                    &#125;catch (Exception e)&#123;</span><br><span class="line">                        if(key != null)&#123;</span><br><span class="line">                            key.cancel();</span><br><span class="line">                            if(key.channel() !=null)</span><br><span class="line">                                key.channel().close();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (Exception e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                System.exit(1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(selector !=null)&#123;</span><br><span class="line">            try&#123;</span><br><span class="line">                selector.close();</span><br><span class="line">            &#125;catch (IOException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void handleInput(SelectionKey key) throws IOException&#123;</span><br><span class="line">        if(key.isValid())&#123;</span><br><span class="line">            //判断是否连接成功</span><br><span class="line">            SocketChannel sc = (SocketChannel)key.channel();</span><br><span class="line">            if(key.isConnectable())&#123;</span><br><span class="line">                if(sc.finishConnect())&#123;</span><br><span class="line">                    sc.register(selector,SelectionKey.OP_READ);</span><br><span class="line">                    doWrite(sc);</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    System.exit(1);//连接失败，进程退出</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(key.isReadable()) &#123;</span><br><span class="line">                ByteBuffer readBuffer = ByteBuffer.allocate(1024);</span><br><span class="line">                int readBytes = sc.read(readBuffer);</span><br><span class="line">                if (readBytes &gt; 0) &#123;</span><br><span class="line">                    readBuffer.flip();//将缓冲区当前的limit设置为position,position设置为0</span><br><span class="line">                    byte[] bytes = new byte[readBuffer.remaining()];</span><br><span class="line">                    readBuffer.get(bytes);</span><br><span class="line">                    String body = new String(bytes, &quot;UTF-8&quot;);</span><br><span class="line">                    System.out.println(&quot;The time server receive order :&quot; + body);</span><br><span class="line">                    this.stop = true;</span><br><span class="line">                &#125; else if (readBytes &lt; 0) &#123;</span><br><span class="line">                    //对端链路关闭</span><br><span class="line">                    key.cancel();</span><br><span class="line">                    sc.close();</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //读到0字节，忽略</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void doConnect() throws IOException&#123;</span><br><span class="line">        if(socketChannel.connect(new InetSocketAddress(host,port)))&#123;</span><br><span class="line">            socketChannel.register(selector,SelectionKey.OP_READ);</span><br><span class="line">            doWrite(socketChannel);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            socketChannel.register(selector,SelectionKey.OP_CONNECT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void doWrite(SocketChannel sc) throws IOException &#123;</span><br><span class="line">        byte[] bytes = &quot;QUERY TIME ORDER&quot;.getBytes();</span><br><span class="line">        ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);</span><br><span class="line">        writeBuffer.put(bytes);</span><br><span class="line">        writeBuffer.flip();</span><br><span class="line">        sc.write(writeBuffer);</span><br><span class="line">        if (!writeBuffer.hasRemaining())</span><br><span class="line">            System.out.println(&quot;Send order 2 server succeed.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先启动服务端，再启动客户端运行实例。</p>
+<h5 id="NIO2-0-AIO实例代码"><a href="#NIO2-0-AIO实例代码" class="headerlink" title="NIO2.0 AIO实例代码"></a>NIO2.0 AIO实例代码</h5><ul>
+<li>服务端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @param args</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    int port = 8080;</span><br><span class="line">    if(args != null &amp;&amp;args.length &gt;0)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            port = Integer.valueOf(args[0]);</span><br><span class="line">        &#125;catch (NumberFormatException ex)&#123;</span><br><span class="line">            //采用默认值</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    AsyncTimeServerHandler timeServer = new AsyncTimeServerHandler(port);</span><br><span class="line">    new Thread(timeServer,&quot;AIO-AsyncTimeServerHandler-001&quot;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line">import java.nio.channels.AsynchronousServerSocketChannel;</span><br><span class="line">import java.util.concurrent.CountDownLatch;</span><br><span class="line"></span><br><span class="line">public class AsyncTimeServerHandler implements Runnable &#123;</span><br><span class="line">    private int port;</span><br><span class="line">    CountDownLatch latch;</span><br><span class="line">    AsynchronousServerSocketChannel asynchronousServerSocketChannel;</span><br><span class="line"></span><br><span class="line">    public AsyncTimeServerHandler(int port)&#123;</span><br><span class="line">        this.port = port;</span><br><span class="line">        try&#123;</span><br><span class="line">            //创建一个异步的服务端通道</span><br><span class="line">            asynchronousServerSocketChannel = AsynchronousServerSocketChannel.open();</span><br><span class="line">            //绑定端口</span><br><span class="line">            asynchronousServerSocketChannel.bind(new InetSocketAddress(port));</span><br><span class="line">            System.out.println(&quot;The time server is start in port:&quot;+ port);</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        latch = new CountDownLatch(1);</span><br><span class="line">        doAccept();</span><br><span class="line">        try&#123;</span><br><span class="line">            latch.await();//允许当前线程阻塞，防止服务端执行完退出</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doAccept()&#123;</span><br><span class="line">        //传递一个CompletionHandler实例来接收通知</span><br><span class="line">        asynchronousServerSocketChannel.accept(this,new AcceptCompletionHandler());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.AsynchronousSocketChannel;</span><br><span class="line">import java.nio.channels.CompletionHandler;</span><br><span class="line"></span><br><span class="line">public class AcceptCompletionHandler implements CompletionHandler&lt;AsynchronousSocketChannel, AsyncTimeServerHandler&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void completed(AsynchronousSocketChannel result, AsyncTimeServerHandler attachment) &#123;</span><br><span class="line">        //继续接收</span><br><span class="line">        attachment.asynchronousServerSocketChannel.accept(attachment, this);</span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(1024);</span><br><span class="line">        result.read(buffer, buffer, new ReadCompletionHandler(result));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void failed(Throwable exc, AsyncTimeServerHandler attachment) &#123;</span><br><span class="line">        exc.printStackTrace();</span><br><span class="line">        attachment.latch.countDown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.AsynchronousSocketChannel;</span><br><span class="line">import java.nio.channels.CompletionHandler;</span><br><span class="line"></span><br><span class="line">public class ReadCompletionHandler implements CompletionHandler&lt;Integer, ByteBuffer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private AsynchronousSocketChannel channel;</span><br><span class="line"></span><br><span class="line">    public ReadCompletionHandler(AsynchronousSocketChannel channel)&#123;</span><br><span class="line">        if(this.channel == null)&#123;</span><br><span class="line">            this.channel = channel;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void completed(Integer result,ByteBuffer attachment)&#123;</span><br><span class="line">        attachment.flip();</span><br><span class="line">        byte[] body = new byte[attachment.remaining()];</span><br><span class="line">        attachment.get(body);</span><br><span class="line">        try&#123;</span><br><span class="line">            String req = new String(body,&quot;UTF-8&quot;);</span><br><span class="line">            System.out.println(&quot;The time server receive order:&quot;+req);</span><br><span class="line">            String currentTime = &quot;QUERY TIME ORDER&quot;.equalsIgnoreCase(req)?</span><br><span class="line">                    new java.util.Date(System.currentTimeMillis()).toString():&quot;BAD ORDER&quot;;</span><br><span class="line">            doWrite(currentTime);</span><br><span class="line">        &#125;catch (UnsupportedEncodingException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void doWrite(String currentTime)&#123;</span><br><span class="line">        if(currentTime !=null &amp;&amp; currentTime.trim().length()&gt;0)&#123;</span><br><span class="line">            byte[] bytes = (currentTime).getBytes();</span><br><span class="line">            final ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);</span><br><span class="line">            writeBuffer.put(bytes);</span><br><span class="line">            writeBuffer.flip();</span><br><span class="line">            channel.write(writeBuffer, writeBuffer, new CompletionHandler&lt;Integer, ByteBuffer&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void completed(Integer result, ByteBuffer buffer) &#123;</span><br><span class="line">                    //如果没有发送完成，继续发送</span><br><span class="line">                    if(buffer.hasRemaining())</span><br><span class="line">                        channel.write(buffer,buffer,this);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public void failed(Throwable exc, ByteBuffer attachment) &#123;</span><br><span class="line">                    try&#123;</span><br><span class="line">                        channel.close();</span><br><span class="line">                    &#125;catch (IOException e)&#123;</span><br><span class="line">                        //ingnore on close</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void failed(Throwable exc,ByteBuffer attachment)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            this.channel.close();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客户端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @param args</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    int port = 8080;</span><br><span class="line">    if(args != null &amp;&amp;args.length &gt;0)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            port = Integer.valueOf(args[0]);</span><br><span class="line">        &#125;catch (NumberFormatException ex)&#123;</span><br><span class="line">            //采用默认值</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    new Thread(new AsyncTimeClientHandler(&quot;127.0.0.1&quot;,port),&quot;AIO-AsyncTimeClientHandler-001&quot;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.AsynchronousSocketChannel;</span><br><span class="line">import java.nio.channels.CompletionHandler;</span><br><span class="line">import java.util.concurrent.CountDownLatch;</span><br><span class="line"></span><br><span class="line">public class AsyncTimeClientHandler implements CompletionHandler&lt;Void,AsyncTimeClientHandler&gt;,Runnable &#123;</span><br><span class="line">    private AsynchronousSocketChannel client;</span><br><span class="line">    private String host;</span><br><span class="line">    private int port;</span><br><span class="line">    private CountDownLatch latch;</span><br><span class="line"></span><br><span class="line">    public AsyncTimeClientHandler(String host,int port)&#123;</span><br><span class="line">        this.host = host;</span><br><span class="line">        this.port = port;</span><br><span class="line">        try&#123;</span><br><span class="line">            client = AsynchronousSocketChannel.open();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        latch = new CountDownLatch(1);</span><br><span class="line">        client.connect(new InetSocketAddress(host,port),this,this);</span><br><span class="line">        try&#123;</span><br><span class="line">            latch.await();</span><br><span class="line">        &#125;catch (InterruptedException el)&#123;</span><br><span class="line">            el.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        try&#123;</span><br><span class="line">            client.close();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void completed(Void result,AsyncTimeClientHandler attachment)&#123;</span><br><span class="line">        byte[] req = &quot;QUERY TIME ORDER&quot;.getBytes();</span><br><span class="line">        ByteBuffer writeBuffer = ByteBuffer.allocate(req.length);</span><br><span class="line">        writeBuffer.put(req);</span><br><span class="line">        writeBuffer.flip();</span><br><span class="line">        client.write(writeBuffer, writeBuffer,</span><br><span class="line">                new CompletionHandler&lt;Integer, ByteBuffer&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void completed(Integer result, final ByteBuffer buffer) &#123;</span><br><span class="line">                        if(buffer.hasRemaining())&#123;</span><br><span class="line">                            client.write(buffer,buffer,this);</span><br><span class="line">                        &#125;else&#123;</span><br><span class="line">                            ByteBuffer readBuffer = ByteBuffer.allocate(1024);</span><br><span class="line">                            client.read(</span><br><span class="line">                                    readBuffer,</span><br><span class="line">                                    readBuffer,</span><br><span class="line">                                    new CompletionHandler&lt;Integer, ByteBuffer&gt;() &#123;</span><br><span class="line">                                        @Override</span><br><span class="line">                                        public void completed(Integer result, ByteBuffer attachment) &#123;</span><br><span class="line">                                            attachment.flip();</span><br><span class="line">                                            byte[] bytes = new  byte[attachment.remaining()];</span><br><span class="line">                                            attachment.get(bytes);</span><br><span class="line">                                            String body;</span><br><span class="line">                                            try&#123;</span><br><span class="line">                                                body = new String(bytes,&quot;UTF-8&quot;);</span><br><span class="line">                                                System.out.println(&quot;Now is:&quot;+body);</span><br><span class="line">                                                latch.countDown();</span><br><span class="line">                                            &#125;catch (UnsupportedEncodingException e)&#123;</span><br><span class="line">                                                e.printStackTrace();</span><br><span class="line">                                            &#125;</span><br><span class="line">                                        &#125;</span><br><span class="line"></span><br><span class="line">                                        @Override</span><br><span class="line">                                        public void failed(Throwable exc, ByteBuffer attachment) &#123;</span><br><span class="line">                                            try&#123;</span><br><span class="line">                                                client.close();</span><br><span class="line">                                                latch.countDown();</span><br><span class="line">                                            &#125;catch (IOException e)&#123;</span><br><span class="line">                                                //ingnore on close</span><br><span class="line">                                            &#125;</span><br><span class="line">                                        &#125;</span><br><span class="line">                                    &#125;</span><br><span class="line">                            );</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    public void failed(Throwable exc, ByteBuffer attachment) &#123;</span><br><span class="line">                        try&#123;</span><br><span class="line">                            client.close();</span><br><span class="line">                            latch.countDown();</span><br><span class="line">                        &#125;catch (IOException e)&#123;</span><br><span class="line">                            //ingnore on close</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void failed(Throwable exc,AsyncTimeClientHandler attachment)&#123;</span><br><span class="line">        exc.printStackTrace();</span><br><span class="line">        try&#123;</span><br><span class="line">            client.close();</span><br><span class="line">            latch.countDown();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GitHub地址"><a href="#GitHub地址" class="headerlink" title="GitHub地址"></a>GitHub地址</h5><p><a href="https://github.com/BMBH/Java-DEMO/tree/master/nettys" target="_blank" rel="noopener">Java-DEMO/nettys/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>欢迎打赏！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.jpg" alt="北冥冰皇 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zhifubao.jpg" alt="北冥冰皇 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/23/C-多线程初级汇总/" rel="next" title="C# 多线程初级汇总">
+                <i class="fa fa-chevron-left"></i> C# 多线程初级汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ico.jpg"
+                alt="北冥冰皇" />
+            
+              <p class="site-author-name" itemprop="name">北冥冰皇</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BMBH" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.cnblogs.com/bmbh/" target="_blank" title="博客园">
+                      
+                        <i class="fa fa-fw fa-globe"></i>博客园</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#各I-O模型优缺点"><span class="nav-number">1.</span> <span class="nav-text">各I/O模型优缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NIO实例分析"><span class="nav-number">2.</span> <span class="nav-text">NIO实例分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NIO实例代码"><span class="nav-number">3.</span> <span class="nav-text">NIO实例代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NIO2-0-AIO实例代码"><span class="nav-number">4.</span> <span class="nav-text">NIO2.0 AIO实例代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GitHub地址"><span class="nav-number">5.</span> <span class="nav-text">GitHub地址</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北冥冰皇</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
