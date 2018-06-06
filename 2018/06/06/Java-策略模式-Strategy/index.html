@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="C#," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
-<meta name="keywords" content="C#">
+<meta name="description" content="创建一个能够根据所传递的参数对象的不同而具有不同行为的方法  要执行的算法固定不变，封装到一个类(Context)中 策略就是传递进去的参数对象，它包含执行代码  策略接口   12345678910111213/** * 策略接口 */public interface IStrategy &amp;#123;    String name();    /**     * 具体逻辑(算法)     * @">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 抽签小程序">
-<meta property="og:url" content="http://yoursite.com/2018/05/14/C-抽签小程序/index.html">
+<meta property="og:title" content="Java 策略模式(Strategy)">
+<meta property="og:url" content="http://yoursite.com/2018/06/06/Java-策略模式-Strategy/index.html">
 <meta property="og:site_name" content="北冥冰皇">
-<meta property="og:description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
+<meta property="og:description" content="创建一个能够根据所传递的参数对象的不同而具有不同行为的方法  要执行的算法固定不变，封装到一个类(Context)中 策略就是传递进去的参数对象，它包含执行代码  策略接口   12345678910111213/** * 策略接口 */public interface IStrategy &amp;#123;    String name();    /**     * 具体逻辑(算法)     * @">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-23T07:46:20.646Z">
+<meta property="og:updated_time" content="2018-06-06T01:39:36.894Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C# 抽签小程序">
-<meta name="twitter:description" content="设计背景设置一个Excel名单表，对名单进行随机抽取。 设计思路使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果 相关技术 随机数 Excel读取/导出 XML文档读写  相关类库C1.C1Excel Excel操作相关 功能 读取Excel名单 名单随机抽签 评分功能 Excel导出功能  代码示例 导入名单  1234567891011using (System.Win">
+<meta name="twitter:title" content="Java 策略模式(Strategy)">
+<meta name="twitter:description" content="创建一个能够根据所传递的参数对象的不同而具有不同行为的方法  要执行的算法固定不变，封装到一个类(Context)中 策略就是传递进去的参数对象，它包含执行代码  策略接口   12345678910111213/** * 策略接口 */public interface IStrategy &amp;#123;    String name();    /**     * 具体逻辑(算法)     * @">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/14/C-抽签小程序/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/06/Java-策略模式-Strategy/"/>
 
 
 
 
 
-  <title>C# 抽签小程序 | 北冥冰皇</title>
+  <title>Java 策略模式(Strategy) | 北冥冰皇</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/C-抽签小程序/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/Java-策略模式-Strategy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="北冥冰皇">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C# 抽签小程序</h1>
+          <h1 class="post-title" itemprop="name headline">Java 策略模式(Strategy)</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T09:56:54+08:00">
-                2018-05-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T09:28:46+08:00">
+                2018-06-06
               </time>
             
 
@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NET/" itemprop="url" rel="index">
-                    <span itemprop="name">.NET</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -352,33 +352,27 @@
       
 
       
-        <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>设置一个Excel名单表，对名单进行随机抽取。
-</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>使用Timer定时器，运行定时器进行名单随机滚动，停止定时器获得抽签结果
-</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><ul>
-<li>随机数</li>
-<li>Excel读取/导出</li>
-<li>XML文档读写</li>
-</ul>
-<h4 id="相关类库"><a href="#相关类库" class="headerlink" title="相关类库"></a>相关类库</h4><p>C1.C1Excel Excel操作相关</p>
-<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ul>
-<li>读取Excel名单</li>
-<li>名单随机抽签</li>
-<li>评分功能</li>
-<li>Excel导出功能</li>
-</ul>
-<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><ul>
-<li>导入名单</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">using (System.Windows.Forms.OpenFileDialog dialog = new OpenFileDialog())</span><br><span class="line">&#123;</span><br><span class="line">    dialog.InitialDirectory = Application.StartupPath;</span><br><span class="line">    dialog.Filter = &quot;Excel文件(*.xls)|*.xls&quot;;</span><br><span class="line">    dialog.CheckFileExists = true;</span><br><span class="line">    if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        this.txtList.Text = dialog.FileName;</span><br><span class="line">        this.dt = ImportExcel(dialog.FileName, false, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>创建一个能够根据所传递的参数对象的不同而具有不同行为的方法</p>
 <ul>
-<li>随机抽签</li>
+<li>要执行的算法固定不变，封装到一个类(Context)中</li>
+<li><p>策略就是传递进去的参数对象，它包含执行代码</p>
+</li>
+<li><p>策略接口</p>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Random rd = new Random();</span><br><span class="line">this.lbShow.Text = this.dt.Rows[rd.Next(1, this.dt.Rows.Count)][0].ToString();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 策略接口</span><br><span class="line"> */</span><br><span class="line">public interface IStrategy &#123;</span><br><span class="line">    String name();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 具体逻辑(算法)</span><br><span class="line">     * @param str</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    String Arithmetic(String str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>评分导出</li>
+<li>具体实现</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">string apppath = Application.ExecutablePath;</span><br><span class="line">apppath = apppath.Substring(0, apppath.LastIndexOf(&quot;\\&quot;));</span><br><span class="line">if (File.Exists(apppath + &quot;\\Evaluation.xml&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument xmlDoc = new XmlDocument();</span><br><span class="line">    xmlDoc.Load(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">    XmlNodeList nodeList = xmlDoc.SelectNodes(&quot;//Evaluation//Evaluation&quot;);</span><br><span class="line"></span><br><span class="line">    DataTable dt = new DataTable();</span><br><span class="line">    dt.Columns.Add(&quot;姓名&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;评分&quot;);</span><br><span class="line">    dt.Columns.Add(&quot;时间&quot;);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; nodeList.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        DataRow dr = dt.NewRow();</span><br><span class="line">        XmlElement xe = (XmlElement)nodeList[i];</span><br><span class="line">        dr[0] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Name&quot;)[i]).InnerText;</span><br><span class="line">        dr[1] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Points&quot;)[i]).InnerText;</span><br><span class="line">        dr[2] = ((XmlElement)xe.SelectNodes(&quot;//Evaluation//Time&quot;)[i]).InnerText;</span><br><span class="line">        dt.Rows.Add(dr);</span><br><span class="line">    &#125;</span><br><span class="line">    ExportTo(&quot;Evaluation&quot;, &quot;Evaluation&quot;, dt);</span><br><span class="line">    MessageBox.Show(&quot;导出评分表将删除评分记录，请自行保存！&quot;);</span><br><span class="line">    File.Delete(apppath + &quot;\\Evaluation.xml&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox.Show(&quot;无评分记录！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/Draw" target="_blank" rel="noopener">.NET-App/Draw/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class Downcase implements IStrategy &#123;</span><br><span class="line">    public String name() &#123;</span><br><span class="line">        return getClass().getSimpleName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String Arithmetic(String str) &#123;</span><br><span class="line">        return str.toLowerCase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class UpCase implements IStrategy &#123;</span><br><span class="line">    public String name() &#123;</span><br><span class="line">        return getClass().getSimpleName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String Arithmetic(String str) &#123;</span><br><span class="line">        return str.toUpperCase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Splitter implements IStrategy &#123;</span><br><span class="line">    public String name() &#123;</span><br><span class="line">        return getClass().getSimpleName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String Arithmetic(String str) &#123;</span><br><span class="line">        return Arrays.toString(str.split(&quot; &quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>封装逻辑(算法)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 策略模式通过组合的方式实现具体算法</span><br><span class="line"> * 其要执行的算法不变，封装到一个类(Context)中</span><br><span class="line"> */</span><br><span class="line">public class Context &#123;</span><br><span class="line"></span><br><span class="line">    private IStrategy mStrategy;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将抽象接口的实现传递给组合对象</span><br><span class="line">     * @param strategy</span><br><span class="line">     */</span><br><span class="line">    public Context(IStrategy strategy)&#123;</span><br><span class="line">        this.mStrategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 封装逻辑(算法)</span><br><span class="line">     * @param s</span><br><span class="line">     */</span><br><span class="line">    public void doAction(String s)&#123;</span><br><span class="line">        System.out.println(mStrategy.name());</span><br><span class="line">        System.out.println(this.mStrategy.Arithmetic(s));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static String s=&quot;Disagreement with beliefs is by definition incorrect&quot;;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    IStrategy is = new UpCase();</span><br><span class="line">    Context c = new Context(is);</span><br><span class="line">    c.doAction(s);</span><br><span class="line"></span><br><span class="line">    IStrategy isd = new Downcase();</span><br><span class="line">    Context c2 = new Context(isd);</span><br><span class="line">    c2.doAction(s);</span><br><span class="line"></span><br><span class="line">    IStrategy iss = new Splitter();</span><br><span class="line">    Context c3 = new Context(iss);</span><br><span class="line">    c3.doAction(s);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -425,7 +419,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/C/" rel="tag"># C#</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -438,8 +432,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/11/C-QR二维码DEMO/" rel="next" title="C# QR二维码DEMO">
-                <i class="fa fa-chevron-left"></i> C# QR二维码DEMO
+              <a href="/2018/05/29/Java-NIO-Socket编程实例/" rel="next" title="Java NIO Socket编程实例">
+                <i class="fa fa-chevron-left"></i> Java NIO Socket编程实例
               </a>
             
           </div>
@@ -448,8 +442,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/14/C-键盘记录器/" rel="prev" title="C# 键盘记录器">
-                C# 键盘记录器 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/06/Java-适配器模式/" rel="prev" title="Java 适配器模式">
+                Java 适配器模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -502,17 +496,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -592,22 +577,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计背景"><span class="nav-number">1.</span> <span class="nav-text">设计背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计思路"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关技术"><span class="nav-number">3.</span> <span class="nav-text">相关技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关类库"><span class="nav-number">4.</span> <span class="nav-text">相关类库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能"><span class="nav-number">5.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码示例"><span class="nav-number">6.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GitHub"><span class="nav-number">7.</span> <span class="nav-text">GitHub</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
