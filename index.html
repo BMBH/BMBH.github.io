@@ -695,10 +695,12 @@
             <p>创建一个能够根据所传递的参数对象的不同而具有不同行为的方法</p>
 <ul>
 <li>要执行的算法固定不变，封装到一个类(Context)中</li>
-<li><p>策略就是传递进去的参数对象，它包含执行代码</p>
-</li>
-<li><p>策略接口</p>
-</li>
+</ul>
+<ul>
+<li>策略就是传递进去的参数对象，它包含执行代码</li>
+</ul>
+<ul>
+<li>策略接口</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 策略接口</span><br><span class="line"> */</span><br><span class="line">public interface IStrategy &#123;</span><br><span class="line">    String name();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 具体逻辑(算法)</span><br><span class="line">     * @param str</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    String Arithmetic(String str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
