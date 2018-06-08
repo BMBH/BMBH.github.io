@@ -259,6 +259,174 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/Java-代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="北冥冰皇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ico.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥冰皇">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/Java-代理模式/" itemprop="url">Java 代理模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T11:37:37+08:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4><p>代理模式 实现逻辑和实现的解耦</p>
+<p>代理模式 为了提供额外的的操作，插入用来代替实际对象的对象。这些操作通常涉及与实际对象通信，代理充当中间人的角色</p>
+<ul>
+<li>接口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 接口</span><br><span class="line"> */</span><br><span class="line">public interface Interface &#123;</span><br><span class="line">    void doSomething();</span><br><span class="line">    void somethingElse(String arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实际对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 实际对象</span><br><span class="line"> */</span><br><span class="line">public class RealObject implements Interface &#123;</span><br><span class="line">    public void doSomething() &#123;</span><br><span class="line">        System.out.println(&quot;doSomething&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void somethingElse(String arg) &#123;</span><br><span class="line">        System.out.println(&quot;somethingElse&quot; + arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>代理对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 代理对象</span><br><span class="line"> */</span><br><span class="line">public class Proxy implements Interface &#123;</span><br><span class="line">    private Interface proxied;</span><br><span class="line"></span><br><span class="line">    public Proxy(Interface proxied) &#123;</span><br><span class="line">        this.proxied = proxied;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doSomething() &#123;</span><br><span class="line">        System.out.println(&quot;Proxy doSomething&quot;);</span><br><span class="line">        proxied.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void somethingElse(String arg) &#123;</span><br><span class="line">        System.out.println(&quot;Proxy somethingElse&quot; + arg);</span><br><span class="line">        proxied.somethingElse(arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 测试代理，比较原对象与代理对象</span><br><span class="line"> *</span><br><span class="line"> * @param args</span><br><span class="line"> */</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Interface iface = new RealObject();</span><br><span class="line">    iface.doSomething();</span><br><span class="line">    iface.somethingElse(&quot;bonobo&quot;);</span><br><span class="line"></span><br><span class="line">    Interface iface2 = new Proxy(iface);</span><br><span class="line">    iface2.doSomething();</span><br><span class="line">    iface2.somethingElse(&quot;bonobo&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>Java动态代理可以动态创建代理并动态处理对所代理的方法的调用</p>
+<p>在动态里上所做的所有调用都会被重定向到单一的调用处理器上，它的工作是揭示调用的类型并确定对应的对策</p>
+<ul>
+<li>动态代理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class DynamicProxyHandler implements InvocationHandler &#123;</span><br><span class="line">    private Object proxied;</span><br><span class="line"></span><br><span class="line">    public DynamicProxyHandler(Object proxied) &#123;</span><br><span class="line">        this.proxied = proxied;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;**** proxy:&quot; + proxy.getClass() + &quot;.method: &quot; + method + &quot;.args: &quot; + args);</span><br><span class="line">        if (args != null) &#123;</span><br><span class="line">            for (Object arg : args) &#123;</span><br><span class="line">                System.out.println(&quot;    &quot; + args);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return method.invoke(proxied, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    RealObject real = new RealObject();</span><br><span class="line">    real.doSomething();</span><br><span class="line">    real.somethingElse(&quot;bonobo&quot;);</span><br><span class="line"></span><br><span class="line">    Interface proxy = (Interface) Proxy.newProxyInstance(</span><br><span class="line">            Interface.class.getClassLoader(),</span><br><span class="line">            new Class[]&#123;Interface.class&#125;,</span><br><span class="line">            new DynamicProxyHandler(real));</span><br><span class="line">    proxy.doSomething();</span><br><span class="line">    proxy.somethingElse(&quot;bonobo&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/Java-工厂方法模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1867,153 +2035,6 @@ Delegate类还支持异步地调用方法。在后台，Delegate类会创建一�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/C-键盘记录器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="北冥冰皇">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/ico.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北冥冰皇">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/14/C-键盘记录器/" itemprop="url">C# 键盘记录器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T11:31:21+08:00">
-                2018-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NET/" itemprop="url" rel="index">
-                    <span itemprop="name">.NET</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="设计背景"><a href="#设计背景" class="headerlink" title="设计背景"></a>设计背景</h4><pre><code>Win系统带有API可以获取键入值，本小程序主要应用了一个网上广为流传的类，可以说一个测试DEMO。有俗称为键盘钩子
-</code></pre><h4 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h4><pre><code>使用Win API获取建入值
-</code></pre><h4 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h4><pre><code>Win API
-</code></pre><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><pre><code>开启记录，记录每个键盘键入值，最终可以导出
-</code></pre><h4 id="主要类"><a href="#主要类" class="headerlink" title="主要类"></a>主要类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line">class globalKeyboardHook</span><br><span class="line">&#123;</span><br><span class="line">    #region Constant, Structure and Delegate Definitions</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// defines the callback type for the hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public delegate int keyboardHookProc(int code, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    public struct keyboardHookStruct</span><br><span class="line">    &#123;</span><br><span class="line">        public int vkCode;</span><br><span class="line">        public int scanCode;</span><br><span class="line">        public int flags;</span><br><span class="line">        public int time;</span><br><span class="line">        public int dwExtraInfo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const int WH_KEYBOARD_LL = 13;</span><br><span class="line">    const int WM_KEYDOWN = 0x100;</span><br><span class="line">    const int WM_KEYUP = 0x101;</span><br><span class="line">    const int WM_SYSKEYDOWN = 0x104;</span><br><span class="line">    const int WM_SYSKEYUP = 0x105;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Instance Variables</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The collections of keys to watch for</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    //public List&lt;Keys&gt; HookedKeys = new List&lt;Keys&gt;();</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Handle to the hook, need this to unhook and call the next hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    IntPtr hhook = IntPtr.Zero;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Events</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is pressed</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyDown;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Occurs when one of the hooked keys is released</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public event KeyEventHandler KeyUp;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Constructors and Destructors</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Initializes a new instance of the &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; class and installs the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        hook();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Releases unmanaged resources and performs other cleanup operations before the</span><br><span class="line">    /// &lt;see cref=&quot;globalKeyboardHook&quot;/&gt; is reclaimed by garbage collection and uninstalls the keyboard hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    ~globalKeyboardHook()</span><br><span class="line">    &#123;</span><br><span class="line">        unhook();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region Public Methods</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Installs the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void hook()</span><br><span class="line">    &#123;</span><br><span class="line">        IntPtr hInstance = LoadLibrary(&quot;User32&quot;);</span><br><span class="line">        hhook = SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hInstance, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Uninstalls the global hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void unhook()</span><br><span class="line">    &#123;</span><br><span class="line">        UnhookWindowsHookEx(hhook);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The callback for the keyboard hook</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;code&quot;&gt;The hook code, if it isn&apos;t &gt;= 0, the function shouldn&apos;t do anyting&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The event type&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The keyhook event information&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public int hookProc(int code, int wParam, ref keyboardHookStruct lParam)</span><br><span class="line">    &#123;</span><br><span class="line">        if (code &gt;= 0)</span><br><span class="line">        &#123;</span><br><span class="line">            Keys key = (Keys)lParam.vkCode;</span><br><span class="line">            //if (HookedKeys.Contains(key))</span><br><span class="line">            //&#123;</span><br><span class="line">                KeyEventArgs kea = new KeyEventArgs(key);</span><br><span class="line">                if ((wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) &amp;&amp; (KeyDown != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyDown(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                else if ((wParam == WM_KEYUP || wParam == WM_SYSKEYUP) &amp;&amp; (KeyUp != null))</span><br><span class="line">                &#123;</span><br><span class="line">                    KeyUp(this, kea);</span><br><span class="line">                &#125;</span><br><span class="line">                if (kea.Handled)</span><br><span class="line">                    return 1;</span><br><span class="line">            //&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return CallNextHookEx(hhook, code, wParam, ref lParam);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    #region DLL imports</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Sets the windows hook, do the desired event, one of hInstance or threadId must be non-null</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The id of the event you want to hook&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;callback&quot;&gt;The callback.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The handle you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;threadId&quot;&gt;The thread you want to attach the event to, can be null&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;a handle to the desired hook&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern IntPtr SetWindowsHookEx(int idHook, keyboardHookProc callback, IntPtr hInstance, uint threadId);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Unhooks the windows hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;hInstance&quot;&gt;The hook handle that was returned from SetWindowsHookEx&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;True if successful, false otherwise&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern bool UnhookWindowsHookEx(IntPtr hInstance);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Calls the next hook.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;idHook&quot;&gt;The hook id&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;nCode&quot;&gt;The hook code&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;wParam&quot;&gt;The wparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;lParam&quot;&gt;The lparam.&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;user32.dll&quot;)]</span><br><span class="line">    static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref keyboardHookStruct lParam);</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// Loads the library.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;lpFileName&quot;&gt;Name of the library&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;A handle to the library&lt;/returns&gt;</span><br><span class="line">    [DllImport(&quot;kernel32.dll&quot;)]</span><br><span class="line">    static extern IntPtr LoadLibrary(string lpFileName);</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h4><p><a href="https://github.com/BMBH/.NET-App/tree/master/KeyboardRecord" target="_blank" rel="noopener">.NET-App/KeyboardRecord/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2068,7 +2089,7 @@ Delegate类还支持异步地调用方法。在后台，Delegate类会创建一�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
